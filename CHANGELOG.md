@@ -1,5 +1,11 @@
 ###### Changelog
 
+
+### 0.9.9
+
+- Release
+
+
 ### 0.9.9 beta 1:
 - Corregido canal LiveStream (eliminar listas obsoletas)
 - Corregido bug en peliculas NewPct

@@ -19,7 +19,7 @@
  
 (function(plugin) {
 
-// var version = '0.9.9 beta1';
+// var version = '0.9.9';
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -906,7 +906,7 @@
 			var file_contents = get_urlsource(url_servidor);
 			var error = file_contents.indexOf('<b class="err">')
 			if(error==-1)
-			{
+				{
 				var op = extraer_texto(file_contents,'<input type="hidden" name="op" value="','"');
 				var usr_login = extraer_texto(file_contents,'<input type="hidden" name="usr_login" value="','"');
 				var id = extraer_texto(file_contents,'<input type="hidden" name="id" value="','"');
@@ -919,8 +919,6 @@
 
 				var datos_post = {'op':op,'usr_login':usr_login,'id':id,'fname':fname,'referer':referer,'method_free':method_free,'x':'109','y':'17'};
 				file_contents = post_urlsource(url_servidor,datos_post);
-			
-
 				var error2 = file_contents.indexOf('<div class="err">')
 				if(error2==-1)
 					{
@@ -2685,13 +2683,11 @@
 				var objItem=xml_list[i];
 				//Obtener fecha de actualizacion y comprobar que la lista existe
 				var fecha=getDate(objItem.url);
-				
 				if (fecha != 'error')
-				{
+					{
 					if (fecha !='') objItem.titulo=objItem.titulo + ' \n(' + fecha + ')';	
 					array_menu.push(objItem)
-				}
-				
+					}
 			}
 
 			array_menu.push(new Item_menu('Todo','views/img/folder.png',':vercontenido:livestream:todos:default')); 
@@ -4970,11 +4966,8 @@
 
 			for (var i=0;i<array_aux.length;i++)
 				{
-
-
 					titulo=extraer_texto(array_aux[i],'title="','">');
 					titulo = fixtitles(titulo);
-
 					if (titulo !='') {			
 						imagen=extraer_texto(array_aux[i],'<img src="','"');
 						url_video=extraer_texto(array_aux[i],'<a href="','"');
@@ -5032,8 +5025,7 @@
 		return array_playlist;	
 		}
 
-		function fixtitles (titulo)	
-		{
+		function fixtitles (titulo)	{
 			//var array_1 = ['á'    ,'é'    ,'í'    ,'ó'    ,'ú'    ,'Á'     ,'É'     ,'Í'     ,'Ó'      ,'Ú'     ,'ñ'    ,'Ñ'     ,'ü','à' ,'è' ,'ì','ò' ,'ù'];
 			var array_1 = [String.fromCharCode(161),String.fromCharCode(169),String.fromCharCode(173),String.fromCharCode(179),String.fromCharCode(186),String.fromCharCode(129),String.fromCharCode(137),String.fromCharCode(141),String.fromCharCode(147),String.fromCharCode(154),String.fromCharCode(177),String.fromCharCode(145),String.fromCharCode(188),String.fromCharCode(160),String.fromCharCode(168),String.fromCharCode(172),String.fromCharCode(178),String.fromCharCode(185)];
 			var array_2 = [String.fromCharCode(225),String.fromCharCode(233),String.fromCharCode(237),String.fromCharCode(243),String.fromCharCode(250),String.fromCharCode(193),String.fromCharCode(201),String.fromCharCode(205),String.fromCharCode(211),String.fromCharCode(218),String.fromCharCode(241),String.fromCharCode(209),String.fromCharCode(252),String.fromCharCode(224),String.fromCharCode(232),String.fromCharCode(236),String.fromCharCode(242),String.fromCharCode(249)];
@@ -5045,7 +5037,7 @@
 				var reg = new RegExp(String.fromCharCode(195) +  array_1[i],"g");
 				resultado = resultado.replace(reg,array_2[i]);
 				}
-		return resultado;
+			return resultado;
 		}
 		
 	}
@@ -6423,8 +6415,6 @@
 
 	//CanalFactory.registrarCanal("serieslyseries",Serieslyseries); //Registrar la clase Seriesly series
 
-	
-	
 //servidores de contenidos
 //
 
@@ -6803,7 +6793,7 @@
 		catch (e) {
 			return "Error: " +  e.message;
 			}
-	}		
+	}
 
 	function get_urlsourcereferer(url_servidor, referer) {
 		//'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:15.0) Gecko/20100101 Firefox/15.0.1'
@@ -6825,7 +6815,7 @@
 	function post_urlsource(url_servidor, datos_post){
 		//'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:15.0) Gecko/20100101 Firefox/15.0.1'
 		//				'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0'
-		//JSONEncode 
+		//JSONEncode
 
 		var codigo_html = showtime.httpReq(url_servidor, 
 			{
@@ -7619,7 +7609,6 @@ function utf8_encode(argString) {
 	//Pagina de ver video
 
 
-
 	//TEST
 	plugin.addURI(PREFIX + ":test", function(page) {
 		page.redirect(PREFIX + ':vercanales:ztestchannel');
@@ -7780,7 +7769,6 @@ function utf8_encode(argString) {
 
 	CanalFactory.registrarCanal("ZTestchannel",ZTestchannel); //Registrar la clase testchannel	
 	//TEST
-
 
 	plugin.addURI(PREFIX + ":start", startPage);
 })(this);
