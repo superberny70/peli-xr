@@ -1,10 +1,17 @@
 ###### Changelog
 
+### 0.10.0b:
+- Añadida funcion post_urlheaders (me hacia falta para series.ly)
+- Canal de series.ly activo - Api de Series.ly activa (gracias a los admins de series.ly)
+- Añadido String.prototype.format:  Formatea el String sustituyendo {0}, {1},...{n} por los argumentos (0..n) pasados a la funcion.
+- Añadida funcion generica get_SerieTvdb: Obtiene los datos de una serie de thetvdb.com
+- LiveStream: Eliminar getDate (tardaba mucho) y añadir recursividad para leer listas multiples.
+- Añadido canal Lista M3U con tres listas autoactualizables y una personal configurable en ajustes.	
+- Añadido canal Lista PLX con listas autoactualizables y una personal configurable en ajustes.	
 
 ### 0.9.9
 
 - Release
-
 
 ### 0.9.9 beta 1:
 - Corregido canal LiveStream (eliminar listas obsoletas)
@@ -21,11 +28,9 @@
 - Deteccion mejorada de contenido no disponible vk 
 - Deteccion mejorada de contenido no disponible videspot 
 
-
 ### 0.9.8
 
 - Release
-
 
 ### 0.9.8 beta 2:
 - Corregido bug en function extraer_texto.
@@ -36,7 +41,6 @@
 - Newpct.com esta teniendo problemas con algunos ISP, por lo que cambiamos a www.newpct1.com
 - Corregido un bug en favoritos, ahora deberia funcionar bien.
 - Añadida funcion utf8_decode().
-
 
 ### 0.9.8 beta:
 - Cambio de todo el codigo js, ahora el codigo esta basado en objetos, Gracias a SuperBerny q se lo ha currado.
