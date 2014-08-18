@@ -7551,7 +7551,7 @@ function utf8_encode(argString) {
 	var licencia = '';
 	var licencia_md5 = '1e7c1eac9e131fe3a01d7594c071bf8c'; //not4kids
 
-	var canal_test=false; //for testing only
+	var canal_test=true; //for testing only
 
 	var objCanal;
 	var objHistorial=new StoreHistorial();
@@ -7683,7 +7683,8 @@ function utf8_encode(argString) {
 				icon: menu_principal[i].imagen});
 
 		}
-
+		
+		
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
@@ -8000,7 +8001,7 @@ function utf8_encode(argString) {
 		//pintar el vercontenido se recorre el array y se pinta
 		if (array_playlist.length == 0)
 		{
-		showtime.notify('No se ha encontrado contenido en esta pagina',3)
+		showtime.notify('No se ha encontrado contenido en esta pagina',3);
 		}else{
 		var item;
 			for (var i=0;i<array_playlist.length;i++)
@@ -8008,7 +8009,8 @@ function utf8_encode(argString) {
 				item = page.appendItem(array_playlist[i].page_uri + escape(array_playlist[i].url), "directory", {
 					titlecover : new showtime.RichText(array_playlist[i].titulo),
 					title: new showtime.RichText(array_playlist[i].titulo),
-					icon: array_playlist[i].imagen});
+					icon: array_playlist[i].imagen
+					});
 
 				item.uri = array_playlist[i].page_uri + escape(array_playlist[i].url);
 				item.titulo = array_playlist[i].titulo;
@@ -8027,10 +8029,14 @@ function utf8_encode(argString) {
 								'host':this.host}))	
 									showtime.notify(this.titulo + ' agregado a favoritos',3);	
 					});
-
-
+				
+				
 			}
 		}
+
+		
+		
+		
 		page.loading = false;
 	});		
 	//Listado de items generico
