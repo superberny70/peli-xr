@@ -5176,7 +5176,7 @@
 			var calidad= "";
 			//var descripcion="";
 			
-			file_contents = extraer_texto(file_contents,'<div id="serie">',' </table>');
+			file_contents = extraer_texto(file_contents,'<div id="serie">','<!-- END -->');
 			if(file_contents!=false)
 			{
 				//item_Actual
@@ -5184,7 +5184,8 @@
 				imagen = extraer_texto(file_contents ,'src="','">');
 			
 				this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);
-				
+				file_contents = extraer_texto(file_contents,'<div class="titles4 font4 bold">Ver online</div>',' </table>');
+				file_contents = extraer_texto(file_contents,'<tbody>',' </tbody>');
 				var array_aux = extraer_html_array(file_contents,'<tr>','</tr>');
 				file_contents = "";
 				
@@ -5209,9 +5210,12 @@
 						break;			
 					}
 				
-					url_host = extraer_texto(array_aux[i],'data-uri="','"');
-					servidor = url_host.split('/')[2].match(/\w+/i)[0];
-				
+					//url_host = extraer_texto(array_aux[i],'data-uri="','"');
+					url_host = extraer_texto(array_aux[i],'data-key="','"');
+					//servidor = url_host.split('/')[2].match(/\w+/i)[0];
+					servidor = extraer_texto(array_aux[i],'http://www.google.com/s2/favicons?domain=','"');
+					servidor = servidor.split('.')[0];
+					
 					var params={
 						"url_host" : url_host,
 						"servidor" : servidor.toProperCase(),
@@ -5577,9 +5581,9 @@
 		this.geturl_host= function (url,page)
 		{
 			var file_contents = get_urlsource(url);
-			var url_video= extraer_texto(file_contents ,'<meta http-equiv="refresh"','>');
-			url_video= extraer_texto(url_video,'URL=','"');
-			
+			var url_video= extraer_texto(file_contents ,'<div id="oculto" style="display:none">','</div>');
+			url_video= extraer_texto(url_video ,'href="','">');
+		
 			return url_video;		
 		}
 		
@@ -5591,7 +5595,7 @@
 			var array_playlist=[];
 			var file_contents = get_urlsource(params.url_servidor);
 			
-			file_contents = extraer_texto(file_contents,"<div class='post hentry'>","<div class='sidebar section' id='sidebar'>");	
+			file_contents = extraer_texto(file_contents,"<div class='post hentry'","<div class='sidebar section' id='sidebar'>");	
 			var array_aux = extraer_html_array(file_contents,"<h3 class='post-title entry-title'","<div class='post-header-line-1'>");
 			file_contents = "";
 			var l=array_aux.length;
@@ -8251,6 +8255,11 @@ function utf8_encode(argString) {
 			url_video = 'http://played.to/0vpqv384hysv';
 			page_uri = ':vervideo:ztestchannel:played:test:views/img/folder.png:';
 			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
+			
+			titulo = 'Test Allmmyvideos';
+			url_video = 'http://allmyvideos.net/u1z2tdsv9rrw';
+			page_uri = ':vervideo:ztestchannel:allmyvideos:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));			
 			
 			titulo = 'Test Youtube No Cypher';
 			url_video = 'https://www.youtube.com/watch?v=mzhM6xNB8sQ';

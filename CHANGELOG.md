@@ -3,11 +3,16 @@
 ### 0.10.0b:
 - Añadida funcion post_urlheaders (me hacia falta para series.ly)
 - Canal de series.ly activo - Api de Series.ly activa (gracias a los admins de series.ly)
-- Añadido String.prototype.format:  Formatea el String sustituyendo {0}, {1},...{n} por los argumentos (0..n) pasados a la funcion.
+
+- Añadido String.prototype.format: Formatea el String sustituyendo {0}, {1},...{n} por los argumentos (0..n) pasados a la funcion.
 - Añadida funcion generica get_SerieTvdb: Obtiene los datos de una serie de thetvdb.com
 - LiveStream: Eliminar getDate (tardaba mucho) y añadir recursividad para leer listas multiples.
-- Añadido canal Lista M3U con tres listas autoactualizables y una personal configurable en ajustes.	
-- Añadido canal Lista PLX con listas autoactualizables y una personal configurable en ajustes.	
+- Añadido canal Lista M3U con tres listas autoactualizables y una personal configurable en ajustes.
+- Añadido canal Lista PLX con listas autoactualizables y una personal configurable en ajustes.
+- Cambiado el metodo para seriesflv, vuelve a funcionar (han hechos cambios en su pagina)
+- Arreglado Allmyvideos, vuelve a funcionar
+- Arreglado seriesdanko, vuelve a funcionar
+
 
 ### 0.9.9
 
