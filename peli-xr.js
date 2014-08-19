@@ -201,10 +201,10 @@
 
 				showtime.sleep(1000);
 
-				var datos_post = {'op':op,'usr_login':usr_login,'id':id,'fname':fname,'referer':referer,'method_free':method_free,'x':'109','y':'17'};
+				var datos_post = {'op':op,'usr_login':usr_login,'id':id,'fname':fname,'referer':referer,'method_free':method_free,'x':'47','y':'19'};
 				file_contents = post_urlsource(url_servidor,datos_post);
 
-				var aux_string = extraer_texto(file_contents,'"sources" : [',']');
+				var aux_string = extraer_texto(file_contents,"jwplayer('flv1player').setup({",");");
 				var pos_ini = aux_string.lastIndexOf('"file"');
 				aux_string = aux_string.substr(pos_ini);
 				var url_video = extraer_texto(aux_string,'file" : "','",');
@@ -452,7 +452,7 @@
 		}
 
 	}
-	HostFactory.registrarHost("magnovideo",Magnovideo); //Registrar la clase Magnovideo
+	//HostFactory.registrarHost("magnovideo",Magnovideo); //Registrar la clase Magnovideo
 
 	/********************************************************************************	
 	/* var Mightyupload: Objeto que representa el servidor Mightyupload				*
@@ -506,7 +506,7 @@
 
 
 	}
-	HostFactory.registrarHost("mightyupload",Mightyupload); //Registrar la clase Mightyupload
+	//HostFactory.registrarHost("mightyupload",Mightyupload); //Registrar la clase Mightyupload
 
 	/********************************************************************************	
 	/* var Movshare: Objeto que representa el servidor Movshare						*
@@ -559,7 +559,7 @@
 		}
 
 	}
-	HostFactory.registrarHost("movshare",Movshare); //Registrar la clase Movshare
+	//HostFactory.registrarHost("movshare",Movshare); //Registrar la clase Movshare
 
 	/********************************************************************************	
 	/* var Novamov: Objeto que representa el servidor Novamov						*
@@ -782,7 +782,7 @@
 		}
 
 	}
-	HostFactory.registrarHost("streamcloud",Streamcloud); //Registrar la clase Streamcloud
+	//HostFactory.registrarHost("streamcloud",Streamcloud); //Registrar la clase Streamcloud
 
 	/********************************************************************************	
 	/* var Videobam: Objeto que representa el servidor Videobam						*
@@ -1099,9 +1099,7 @@
 
 	}
 	HostFactory.registrarHost("xvideos",Xvideos); //Registrar la clase Xvideos
-	
-	
-	
+		
 	/********************************************************************************	
 	/* var Youtube: Objeto que representa el servidor Vidspot						*
 	/*		Hereda de Host															*
@@ -1343,7 +1341,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){return [];}
@@ -1363,7 +1361,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page) {return [];}
@@ -1372,7 +1370,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){return url;}
@@ -1380,7 +1378,7 @@
 		/************************************************************************************
 		/*	funcion getitem_alfabeto: Devuelve un listado de las subsecciones del canal. 	*
 		/*	Parametros:                                                                     *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna:Un objetos Item_menu													*
 		/***********************************************************************************/
 		this.getitem_alfabeto= function(page) {return {};}
@@ -1399,13 +1397,14 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
 		//retorna el Menu
 			var array_menu=[
-				new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/peliculas-castellano/peliculas-rip/')),
+				//new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/peliculas-castellano/peliculas-rip/')),
+				new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/peliculas/')),
 				new Item_menu('Estrenos de Cine','views/img/folder.png',':vercontenido:newpct:tipoestrenoscine:' + escape('http://www.newpct1.com/peliculas-castellano/estrenos-de-cine/;1')),
 				new Item_menu('V.O. Subtituladas','views/img/folder.png',':vercontenido:newpct:tipovo:' + escape('http://www.newpct1.com/peliculas-vo/;1')),
 				new Item_menu('Buscar','views/img/search.png',':vercontenido:newpct:tipobusqueda:' + escape('http://www.newpct1.com/buscar-descargas/'))
@@ -1477,7 +1476,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		// Antes function parsenewpctpelicula
@@ -1501,10 +1500,11 @@
 		if(file_contents!=false)
 			{
 			//item_Actual
-			titulo = extraer_texto(file_contents ,'<img itemprop="image"','/>');
-			titulo = extraer_texto(titulo ,'alt="','"');
+			//titulo = extraer_texto(file_contents ,'<img itemprop="image"','/>');
+			//titulo = extraer_texto(titulo ,'alt="','"');
+			titulo = extraer_texto(file_contents ,'<title>','Descargar');
 			imagen = extraer_texto(file_contents ,'<meta property="og:image" content="','" />');
-			descripcion = extraer_texto(file_contents ,"<div class='sinopsis'>","</div>");
+			descripcion = extraer_texto(file_contents ,"</div><div class='sinopsis'>","</div>");
 
 			this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);
 
@@ -1550,7 +1550,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -1621,7 +1621,6 @@
 		/*var params={'url_servidor': ,'page_uri': ,'uri_siguiente': ,'subtitulo': }*/
 		var numero_pagina = parseInt(extraer_texto(params.url_servidor,'pag=','&'));			
 		var file_contents = get_urlsource(params.url_servidor);
-
 		var ultima_pagina = extraer_texto(file_contents,"<div id='centPag'>","</div>");
 		ultima_pagina = ultima_pagina.substr(ultima_pagina.lastIndexOf("<a href='javascript:;'  class='todo'  onclick=\"orderCategory('todo','','"));
 		ultima_pagina = extraer_texto(ultima_pagina,"<a href='javascript:;'  class='todo'  onclick=\"orderCategory('todo','','","'");
@@ -1635,13 +1634,16 @@
 
 		for (var i=0;i<array_aux.length;i++)
 			{
-			titulo=extraer_texto(array_aux[i],'<h3>','</h3>');
+			imagen=extraer_texto(array_aux[i],"<img src='","'");
+			url_video=extraer_texto(array_aux[i],"<a href='","'>");
+			file_contents = extraer_texto(array_aux[i], "<div class='cover boxcaption'>", "</div>");
+		
+			titulo=extraer_texto(file_contents,'<h3>','</h3>');
 			if (params.subtitulo) titulo=titulo + ' ' + extraer_texto(array_aux[i],'<p>','<br/>');
-			if (titulo !='') {			
-				imagen=extraer_texto(array_aux[i],"<img src='","'");
-				url_video=extraer_texto(array_aux[i],"<a href='","'>");
-				array_playlist.push(new Item_menu(titulo,imagen,params.page_uri,url_video));
-				}
+			//calidad = extraer_texto(file_contents, "Calidad:", "<br>");
+           // idioma = extraer_texto(file_contents, "Idioma :", "</p>");
+	
+			array_playlist.push(new Item_menu(titulo,imagen,params.page_uri,url_video));
 			}
 
 		//paginador
@@ -1725,291 +1727,6 @@
 
 	CanalFactory.registrarCanal("newpct",Newpct); //Registrar la clase Newpct
 
-	/****************************************************************************************
-	/* var Peliculaspepito: Objeto que representa el canal Peliculas Pepito en Peliculas	*
-	/****************************************************************************************/
-	var Peliculaspepito= function() {	
-		var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
-		//metodos publicos
-
-		/*************************************************************************************
-		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
-		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
-		/*	Retorna: Array de objetos Item_menu									             *
-		/************************************************************************************/
-		this.getmenu= function(page){
-		//retorna el Menu
-			var array_menu=[
-				new Item_menu('Ultimos estrenos en cine','views/img/folder.png',':vercontenido:peliculaspepito:tipoultimosestrenos:' + escape('http://www.peliculaspepito.com')),
-				new Item_menu('Nuevo Contenido','views/img/folder.png',':vercontenido:peliculaspepito:tiponuevocontenido:' + escape('http://www.peliculaspepito.com')),
-				new Item_menu('Lo mas visto','views/img/folder.png',':vercontenido:peliculaspepito:tipolomasvisto:' + escape('http://www.peliculaspepito.com')),
-				new Item_menu('Lo mas popular','views/img/folder.png',':vercontenido:peliculaspepito:tipolomasvotado:' + escape('http://www.peliculaspepito.com')),
-				new Item_menu('Orden Alfabetico','views/img/folder.png',':alfabeto:peliculaspepito:num'),
-				new Item_menu('Buscar','views/img/search.png',':vercontenido:peliculaspepito:tipobusqueda:' + escape('http://www.peliculaspepito.com/buscador'))
-				];
-
-			return array_menu;
-		}
-
-		/************************************************************************************
-		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
-		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
-		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*	Retorna: Array de objetos Item_menu											    *
-		/************************************************************************************/
-		this.getplaylist= function (page, tipo, url) {
-			var array_playlist=[];
-			switch (tipo)
-				{
-				case "tipoultimosestrenos":
-					array_playlist=parsepeliculaspepitotipo1(url, 'ultimosestrenos', page);
-					break;
-				case "tiponuevocontenido":
-					array_playlist=parsepeliculaspepitotipo1(url, 'nuevocontenido', page);
-					break;
-				case "tipolomasvisto":
-					array_playlist=parsepeliculaspepitotipo1(url, 'masvisto', page);
-					break;
-				case "tipolomasvotado":
-					array_playlist=parsepeliculaspepitotipo1(url, 'masvotado', page);
-					break;
-				case "tipobusqueda":
-					array_playlist=parsepeliculaspepitotipobusqueda(url, page);
-					break;
-				case "tipolistado":
-					array_playlist=parsepeliculaspepitotipolistado(url);
-					break;	
-				}	
-		return array_playlist;
-		}
-
-		/************************************************************************************
-		/*	funcion getservidores: Devuelve un listado de enlaces al contenido en los 		*
-		/*							servidores soportados. 								    *
-		/*	Parametros: 																    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: Array de servidores												    *
-		/************************************************************************************/
-		this.getservidores= function (url,page)
-		{
-			url=unescape(url);
-			var file_contents = get_urlsource(url);
-			var aux_string = extraer_texto(file_contents, '<div id="ph_caratula">','<div id="ph_menu"');
-
-			var titulo;
-			var imagen;
-			var url_host;
-			var servidor;
-			var idioma;
-			var calidad;
-			var descripcion;
-
-			//item_Actual
-			titulo = extraer_texto(aux_string, '<h1>','</h1>');
-			imagen = extraer_texto(aux_string, 'src="','"');
-			descripcion = extraer_texto(aux_string ,'<div id="ph_sinopsis">','</div>');
-			descripcion = descripcion.replace(/<p>/g,'');
-			descripcion = descripcion.replace(/<\/p>/g,'');
-			descripcion = descripcion.replace(/<div class="ficha_peli"><span>/g,'');
-			descripcion = descripcion.replace(/<\/span>/g,'');
-
-			this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);	
-
-			aux_string = extraer_texto(file_contents, '</thead>','</table>');
-			file_contents = "";
-
-			var array_aux = extraer_html_array(aux_string,'<tr>','</tr>');
-
-			var array_servidores=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				url_host=extraer_texto(array_aux[i],'href="','"');
-				servidor = extraer_texto(array_aux[i],'alt="','"');
-				idioma = extraer_texto(array_aux[i],'<span class="flag ','"');
-				switch (idioma)
-					{
-					case "flag_0":
-						idioma='Español';
-						break;
-					case "flag_1":
-						idioma='Latino';
-						break;
-					case "flag_2":
-						idioma='Ingles';
-						break;
-					case "flag_3":
-						idioma='Ingles Subtitulado';
-						break;
-					}
-				calidad = extraer_texto(array_aux[i],'class="tdcalidad">','</td>').replace(/&nbsp;/g,' ');
-
-				var params={
-							"url_host" : url_host,
-							"servidor" : servidor,
-							"idioma" : idioma,
-							"calidad" : calidad
-							};
-
-					var objHost=HostFactory.createHost(servidor,params)
-					if (objHost)
-						{
-							array_servidores.push(objHost);
-						}				
-				}
-			array_servidores.sortBy('idioma');
-			return array_servidores;
-		}
-
-		/***********************************************************************************
-		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
-		/*	Parametros:																       *
-		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: String que representa la url									       *
-		/**********************************************************************************/
-		this.geturl_host= function (url,page){
-			return extraer_texto(get_urlsource(url),'title="Bajar..." href="','">'); 
-		}
-
-		/************************************************************************************
-		/*	funcion getitem_alfabeto: Devuelve un listado de las subsecciones del canal. 	*
-		/*	Parametros:                                                                     *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna:Un objetos Item_menu													*
-		/***********************************************************************************/
-		this.getitem_alfabeto= function(page) {
-			return (new Item_menu("Peliculas Pepito - Orden Alfabetico","views/img/folder.png",':vercontenido:peliculaspepito:tipolistado:','http://www.peliculaspepito.com/lista-peliculas/'))
-		}
-
-		//Metodos Privados
-
-	function parsepeliculaspepitotipo1(url_servidor, tipo, page)
-		{
-		//http://www.peliculaspepito.com (ultimosestrenoscine,nuevocontenido,masvisto,masvotado)
-		url_servidor=unescape(url_servidor);
-		var titulo_pagina;
-		var corte_string;
-		switch (tipo)
-				{
-				case "ultimosestrenos":
-					titulo_pagina = 'Ultimos Estrenos Cine';
-					corte_string = 'ltimos estrenos en cines';
-				break;
-				case "nuevocontenido":
-					titulo_pagina = 'Nuevo Contenido';
-					corte_string = 'uevos contenidos';
-				break;
-				case "masvisto":
-					titulo_pagina = 'Lo Mas Visto';
-					corte_string = 's visto ayer';
-				break;
-				case "masvotado":
-					titulo_pagina = 'Lo Mas Popular';
-					corte_string = 'mas gustado en PeliculasPepito';
-				break;
-				}
-		page.metadata.title = 'Peliculas Pepito - ' + titulo_pagina;
-
-
-		var file_contents = get_urlsource(url_servidor);
-		var aux_string = extraer_texto(file_contents, corte_string, '</ul>');
-		var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-		var titulo;
-		var imagen;
-		var url_video;	
-		var page_uri = ':verenlaces:peliculaspepito:';
-		var array_playlist=[];
-
-		for (var i=0;i<array_aux.length;i++)
-			{
-			titulo=extraer_texto(array_aux[i],'title="','"');
-			imagen=extraer_texto(array_aux[i],'src="','"');
-			url_video=extraer_texto(array_aux[i],'href="','"');
-			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
-			}
-
-		return array_playlist;
-		}
-
-	function parsepeliculaspepitotipolistado(url_servidor)
-		{
-		url_servidor=unescape(url_servidor) + '/';
-		var file_contents = get_urlsource(url_servidor);
-
-		var aux_string = extraer_texto(file_contents,'<ul class="ullistadoalfa">','</ul>');
-		var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-		var titulo;
-		var imagen = "views/img/folder.png";
-
-		var url_video;   
-		var page_uri = ':verenlaces:peliculaspepito:';
-
-		var array_playlist=[];
-
-		for (var i=0;i<array_aux.length;i++)
-		{
-			titulo=extraer_texto(array_aux[i],'title="','"');
-			url_video=extraer_texto(array_aux[i],'href="','"');
-			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
-		}
-
-		return array_playlist;
-		}
-
-	function parsepeliculaspepitotipobusqueda(url_servidor, page)
-		{
-		url_servidor=unescape(url_servidor);
-		var array_playlist=[];
-		var texto_busqueda=that.cuadroBuscar();
-
-		if ( texto_busqueda != undefined) 
-			{	
-				texto_busqueda = texto_busqueda.replace(/ /g,'-');
-
-				page.metadata.title = 'Peliculas Pepito - Buscar ' + texto_busqueda;
-
-				var file_contents = get_urlsource(url_servidor + '/' + texto_busqueda + '/');
-
-				var resultados = file_contents.indexOf('o hemos encontrado');
-				if(resultados==-1)
-				{
-					var aux_string = extraer_texto(file_contents, 'lista_peliculas', '</ul>');
-					var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-					var titulo;
-					var imagen;
-					var url_video;	
-					var page_uri = ':verenlaces:peliculaspepito:';
-					var array_playlist=[];
-
-					for (var i=0;i<array_aux.length;i++)
-						{
-						titulo=extraer_texto(array_aux[i],'title="','"');
-						imagen=extraer_texto(array_aux[i],'src="','"');
-						url_video=extraer_texto(array_aux[i],'href="','"');
-
-						array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));		
-						}
-				}
-			}
-
-		return array_playlist;
-		}
-
-	}
-	//Propiedades y metodos Estaticos
-	Peliculaspepito.categoria= function() {return 'peliculas';}
-	Peliculaspepito.getitem= function() {return new Item_menu('Peliculas Pepito',"img/peliculaspepito.png",':vercanales:peliculaspepito');}
-
-	//CanalFactory.registrarCanal("Peliculaspepito",Peliculaspepito); //Registrar la clase Peliculaspepito
-
 	/************************************************************************************************
 	/* var Vodly: Objeto que representa el canal Vodly en Peliculas, y del que hereda Vodlyseries	*
 	/***********************************************************************************************/
@@ -2019,7 +1736,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -2070,7 +1787,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page)
@@ -2132,7 +1849,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -2218,7 +1935,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -2269,7 +1986,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page)
@@ -2337,7 +2054,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -2393,7 +2110,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -2444,7 +2161,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page)
@@ -2517,7 +2234,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -2683,14 +2400,14 @@
 			if ((service.urlxml_liveStream.startsWith('http') && service.urlxml_liveStream.endsWith('.xml')) || service.urlxml_liveStream.startsWith('http://pastebin.com'))
 				{
 				xml_list.push(new Item_menu('Personal','views/img/folder.png',':vercontenido:livestream:Lista Personal:' + escape(service.urlxml_liveStream),service.urlxml_liveStream)); 
-				}	
+				}
 
 		//metodos publicos
 
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -2842,450 +2559,6 @@
 	CanalFactory.registrarCanal("LiveStream",LiveStream); //Registrar la clase LiveStream
 
 	/************************************************************************************
-	/* var SpliveTV: Objeto que representa el canal SpliveTV en TV Online				*
-	/************************************************************************************/
-	var SpliveTV= function() {	
-		//var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
-
-		//metodos publicos
-
-		/*************************************************************************************
-		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
-		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
-		/*	Retorna: Array de objetos Item_menu									             *
-		/************************************************************************************/
-		this.getmenu= function(page){
-		//retorna el Menu
-			var array_menu=[
-				new Item_menu('Deportes','img/splivetv_deportes.png',':vercontenido:splivetv:Deportes:'+ escape('http://spliveapp.com/listas/Deportes.xml')),
-				//new Item_menu('InterDeportes','img/splivetv_interdeportes.png',':vercontenido:splivetv:InterDeportes:'+ escape('http://spliveapp.com/listas/InterDeportes_Splive.xml')),
-				new Item_menu('Cine','img/splivetv_cine.png',':vercontenido:splivetv:Cine:'+ escape('http://spliveapp.com/listas/Cine.xml')),
-				new Item_menu('Series','img/splivetv_series.png',':vercontenido:splivetv:Series:'+ escape('http://spliveapp.com/listas/Series.xml')),
-				new Item_menu('Infantil','img/splivetv_infantiles.png',':vercontenido:splivetv:Infantil:'+ escape('http://spliveapp.com/listas/Infantil.xml')),
-				new Item_menu('Documentales','img/splivetv_documentales.png',':vercontenido:splivetv:Documentales:'+ escape('http://spliveapp.com/listas/Documentales.xml')),
-				new Item_menu('Mediaset','img/splivetv_mediaset.png',':vercontenido:splivetv:Mediaset:'+ escape('http://spliveapp.com/listas/Mediaset.xml')),			
-				];
-		return array_menu;
-		}
-
-		/************************************************************************************
-		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
-		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
-		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*	Retorna: Array de objetos Item_menu											    *
-		/************************************************************************************/
-		this.getplaylist= function (page, tipo, url) {
-			var array_playlist=[];
-
-			page.metadata.title =tipo; //En este caso el tipo es el titulo de la page
-
-			array_playlist=parsesplivetvxmltipo1(url);
-
-		return array_playlist.sortBy('titulo');
-		}
-
-		/************************************************************************************
-		/*	funcion getservidores: Devuelve un listado de enlaces al contenido en los 		*
-		/*							servidores soportados. 								    *
-		/*	Parametros: 																    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: Array de servidores												    *
-		/************************************************************************************/
-		this.getservidores= function (url,page){
-			//En este caso esta funcion no es necesaria
-			//La mantenemos por coherencia pero retornamos una Array vacio
-			var array_servidores=[];
-			return array_servidores;
-		}
-
-		/***********************************************************************************
-		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
-		/*	Parametros:																       *
-		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: String que representa la url									       *
-		/**********************************************************************************/
-		this.geturl_host= function (url,page){
-			//En este caso esta funcion no es necesaria
-			//La mantenemos por coherencia
-			return url;		
-		}
-
-
-		//Metodos Privados
-		function parsesplivetvxmltipo1(url_xml){
-			url_xml=unescape(url_xml);
-
-			var titulo;
-			var imagen;
-			var imagen_default =  "img/tvonline.png";
-			var url_video;	
-			var page_uri;
-			var array_playlist=[];
-
-			var file_contents = get_urlsource(url_xml);
-
-			//Recuperamos todos los <channel> en forma de array
-			var array_aux = extraer_html_array(file_contents,'<channel>', '</channel>');
-			file_contents = "";
-
-			for (var i=0;i<array_aux.length;i++)
-			{
-
-				url_video = extraer_texto(array_aux[i], '<rtmp>', '</rtmp>');
-				//Añado el canal al listado si esta disponible y el protocolo es rtmp
-				if (extraer_texto(array_aux[i], '<available>', '</available>') == 1 && url_video.startsWith("rtmp"))
-				{
-					titulo = extraer_texto(array_aux[i], '<name>', '</name>').trim()
-					imagen = extraer_texto(array_aux[i], '<link_logo>', '</link_logo>');
-					page_uri = ':vervideo:SpliveTV:StreamsRtmp:' + escape(titulo) + ':' + escape(imagen) + ':' ;
-
-					array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-				}
-			}
-
-		return array_playlist;
-		}
-
-	}
-	//Propiedades y metodos Estaticos
-	SpliveTV.categoria= function() {return 'tvonline';}
-	SpliveTV.getitem= function() {return new Item_menu('SpliveTV',"img/splivetv.png",':vercanales:splivetv');}
-
-	//CanalFactory.registrarCanal("splivetv",SpliveTV); //Registrar la clase SpliveTV
-
-	/************************************************************************************
-	/* var SeriesPepito: Objeto que representa el canal Series Pepito en Series			*
-	/************************************************************************************/
-	var SeriesPepito= function() {	
-		var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
-		//metodos publicos
-
-		/*************************************************************************************
-		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
-		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
-		/*	Retorna: Array de objetos Item_menu									             *
-		/************************************************************************************/
-		this.getmenu= function(page){
-		//retorna el Menu
-			var array_menu=[
-				new Item_menu('Ultimos capitulos','views/img/folder.png',':vercontenido:seriespepito:tipoultimoscapitulos:' + escape('http://www.seriespepito.com/nuevos-capitulos')),
-				new Item_menu('Ultimos estrenos','views/img/folder.png',':vercontenido:seriespepito:tipoultimoscapitulosestreno:' + escape('http://www.seriespepito.com')),
-				//new Item_menu('Lista de series','views/img/folder.png',':alfabeto:peliculaspepito'),
-				new Item_menu('Lista de series','views/img/folder.png',':alfabeto:peliculaspepito:num'),
-				new Item_menu('Buscar','views/img/search.png',':vercontenido:seriespepito:tipobusqueda:' + escape('http://www.seriespepito.com/buscador'))
-				];
-		return array_menu;
-		}
-
-		/************************************************************************************
-		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
-		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
-		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*	Retorna: Array de objetos Item_menu											    *
-		/************************************************************************************/
-		this.getplaylist= function (page, tipo, url) {
-			var array_playlist=[];
-			switch (tipo)
-			{
-				case "tipoultimoscapitulos":
-					array_playlist=parseseriespepitotipoultimoscapitulos(url, page);
-					break;
-				case "tipoultimoscapitulosestreno":
-					array_playlist=parseseriespepitotipoultimoscapitulosestreno(url, page);
-					break;
-				case "tipolistado":
-					array_playlist=parseseriespepitotipolistado(url, page);
-					break;
-				case "tipobusqueda":
-					array_playlist=parseseriespepitotipobusqueda(url, page);
-					break;
-				case "tiposerie":
-					array_playlist=parseseriespepitoserie(url, page);
-					break;
-			}
-		return array_playlist;
-		}
-
-		/************************************************************************************
-		/*	funcion getservidores: Devuelve un listado de enlaces al contenido en los 		*
-		/*							servidores soportados. 								    *
-		/*	Parametros: 																    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: Array de servidores												    *
-		/************************************************************************************/
-		this.getservidores= function (url,page)
-		{
-			url=unescape(url);
-
-			var file_contents = get_urlsource(url);
-
-			var titulo;
-			var imagen;
-			var url_video;
-			var servidor;
-			var idioma;
-			var calidad;
-			var descripcion;
-
-			//item_Actual
-			titulo = extraer_texto(file_contents ,'<div class="dtitulo">','</div>');
-			titulo = extraer_texto(titulo ,'<h2>','</h2>');
-			imagen = extraer_texto(file_contents ,'<img class="img-polaroid imgcolserie"','</center>');
-			imagen = extraer_texto(imagen ,'src="','"');
-			descripcion = '';
-
-			this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);
-
-			var aux_string = extraer_texto(file_contents, '</thead>','</table>');
-			file_contents = "";
-
-			var array_aux = extraer_html_array(aux_string,'<tr>','</tr>');
-
-			var array_servidores=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				url_video=extraer_texto(array_aux[i],'href="','"');
-				servidor = extraer_texto(array_aux[i],'alt="','"');
-				idioma = extraer_texto(array_aux[i],'<span class="flag ','"');
-				switch (idioma)
-				{
-					case "flag_0":
-						idioma='Español';
-						break;
-					case "flag_1":
-						idioma='Latino';
-						break;
-					case "flag_2":
-						idioma='Ingles';
-						break;
-					case "flag_3":
-						idioma='Ingles Subtitulado';
-				}
-				var params={
-						"url_host" : url_video,
-						"servidor" : servidor,
-						"idioma" : idioma,
-						"calidad" : calidad
-						};
-
-				var objHost=HostFactory.createHost(servidor,params)
-				if (objHost)
-					{
-						array_servidores.push(objHost);
-					}				
-				}	
-		return array_servidores;
-		}
-
-		/***********************************************************************************
-		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
-		/*	Parametros:																       *
-		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna: String que representa la url									       *
-		/**********************************************************************************/
-		this.geturl_host= function (url,page){ 
-			return extraer_texto(get_urlsource(url),'title="Ver..." href="','">');	
-		}
-
-		/************************************************************************************
-		/*	funcion getitem_alfabeto: Devuelve un listado de las subsecciones del canal. 	*
-		/*	Parametros:                                                                     *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
-		/*	Retorna:Un objetos Item_menu													*
-		/***********************************************************************************/
-		this.getitem_alfabeto= function(page) {
-			return (new Item_menu("Series Pepito - Orden Alfabetico","views/img/folder.png",':vercontenido:seriespepito:tipolistado:','http://www.seriespepito.com/lista-series-'))
-		}
-
-		//Metodos Privados
-
-		function parseseriespepitotipoultimoscapitulos(url_servidor, page)
-			{
-			//http://www.seriespepito.com/nuevos-capitulos/
-			url_servidor=unescape(url_servidor);
-			page.metadata.title = 'Series Pepito - Ultimos Capitulos';
-
-			var file_contents = get_urlsource(url_servidor);
-
-			var aux_string = extraer_texto(file_contents, 'lista_series', '</ul>');
-			var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-			var titulo;
-			var imagen;
-			var url_video;	
-			var page_uri = ':verenlaces:seriespepito:';
-			var array_playlist=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				titulo=extraer_texto(array_aux[i],'&nbsp;<a title="','"');
-				imagen=extraer_texto(array_aux[i],'src="','"');
-				url_video=extraer_texto(array_aux[i],'&nbsp;<a title="','>');
-				url_video=extraer_texto(url_video,'href="','"');
-
-				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-				}
-
-		return array_playlist;
-		}
-
-		function parseseriespepitotipoultimoscapitulosestreno(url_servidor, page)
-			{
-			url_servidor=unescape(url_servidor);
-			page.metadata.title = 'Series Pepito - Ultimos Estrenos';
-
-			var file_contents = get_urlsource(url_servidor);
-
-			var aux_string = extraer_texto(file_contents, 'tulos de estreno', '<div');
-			var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-			var titulo;
-			var imagen =  "views/img/folder.png";
-			var url_video;   
-			var page_uri = ':verenlaces:seriespepito:';
-			var array_playlist=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				titulo=extraer_texto(array_aux[i],'title="','"');
-				url_video=extraer_texto(array_aux[i],'href="','"');
-
-				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-				}
-      
-		return array_playlist;
-		}
-
-
-		function parseseriespepitotipolistado(url_servidor, page)
-			{
-			//http://www.seriespepito.com/ (listado
-			url_servidor=unescape(url_servidor);
-
-			page.metadata.title = 'Series Pepito - Listado Series';
-
-			var file_contents = get_urlsource(url_servidor);
-
-			var aux_string = extraer_texto(file_contents, '<ul class="lista_series">', '</ul>');
-			var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-			var titulo;
-			var imagen //= plugin.path + "views/img/folder.png";
-			var url_video;	
-			var page_uri = ':vercontenido:seriespepito:tiposerie:';
-
-			var array_playlist=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				titulo=extraer_texto(array_aux[i],'title="','"');
-				imagen=extraer_texto(array_aux[i],'src="','"');
-				url_video=extraer_texto(array_aux[i],'href="','"');
-
-				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-				}
-
-		return array_playlist;
-		}
-
-		function parseseriespepitotipobusqueda(url_servidor, page)
-			{
-			//buscar
-			url_servidor=unescape(url_servidor);
-			var array_playlist=[];
-
-			var texto_busqueda=that.cuadroBuscar();
-			if ( texto_busqueda != undefined) 
-				{
-					texto_busqueda = texto_busqueda.replace(/ /g,'-');
-
-					page.metadata.title = 'Series Pepito - Buscar ' + texto_busqueda;
-
-					var file_contents = get_urlsource(url_servidor + '/' + texto_busqueda + '/');
-
-					var resultados = file_contents.indexOf('o hemos encontrado');
-					if(resultados==-1)
-					{
-						var aux_string = extraer_texto(file_contents, 'lista_series', '</ul>');
-						var array_aux = extraer_html_array(aux_string,'<li>','</li>');
-
-						var titulo;
-						var imagen;
-						var url_video;	
-						var page_uri = ':vercontenido:seriespepito:tiposerie:';
-
-						var array_playlist=[];
-
-						for (var i=0;i<array_aux.length;i++)
-							{
-							titulo=extraer_texto(array_aux[i],'title="','"');
-							imagen=extraer_texto(array_aux[i],'src="','"');
-							url_video=extraer_texto(array_aux[i],'href="','"');
-
-							array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-							}
-					}
-				}
-
-		return array_playlist;
-		}
-
-		function parseseriespepitoserie(url_serie, page)
-			{
-			url_serie=unescape(url_serie);
-
-			var file_contents = get_urlsource(url_serie);
-
-			var titulo;
-			titulo = extraer_texto(file_contents,'<div class="dtitulo">','</div>');
-			titulo = extraer_texto(titulo,'<h1>','</h1>');
-			page.metadata.title = titulo;
-			var imagen;
-			//var descripcion;
-			var url_video;	
-			var page_uri = ':verenlaces:seriespepito:';
-			imagen = extraer_texto(file_contents ,'<img class="img-polaroid imgcolserie"','</center>');
-			imagen = extraer_texto(imagen ,'src="','"');		
-			//descripcion = extraer_texto(file_contents ,'<div id="description"> <p> ',' ... <a');
-			//imagen=plugin.path + "views/img/folder.png";
-
-			file_contents = extraer_texto(file_contents,'<div class="accordion"','</div></div></div></div>');
-			var array_aux = extraer_html_array(file_contents,'<tr><td>','</td></tr>');
-			file_contents = "";
-			var array_playlist=[];
-
-			for (var i=0;i<array_aux.length;i++)
-				{
-				titulo=extraer_texto(array_aux[i],'<strong> ','</a>');
-				//titulo=titulo.replace('</strong> ','');
-				//imagen=extraer_texto(array_aux[i],'src="','"');
-				url_video=extraer_texto(array_aux[i],'href="','"');
-
-				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
-				}
-
-		return array_playlist;
-		}
-
-	}
-    //Propiedades y metodos Estaticos
-	SeriesPepito.categoria= function() {return 'series';}
-	SeriesPepito.getitem= function() {return new Item_menu('Series Pepito',"img/seriespepito.png",':vercanales:seriespepito');}
-
-	//CanalFactory.registrarCanal("SeriesPepito",SeriesPepito); //Registrar la clase SeriesPepito
-
-	/************************************************************************************
 	/* var Vodlyseries: Objeto que representa el canal Vodly en Series. Hereda de Vodly	*
 	/************************************************************************************/
 	var Vodlyseries= function() {	
@@ -3313,7 +2586,7 @@
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -3353,7 +2626,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -3436,7 +2709,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -3492,7 +2765,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page){
@@ -3561,7 +2834,7 @@
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
-		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
@@ -3583,7 +2856,7 @@
 		//Metodos Privados
 		var imagen;
 		var descripcion;
-		
+
 		function parsepordedeseriestipobusqueda(page, url_servidor)	{
 			//http://www.pordede.com/search/
 			var array_playlist=[];
@@ -3610,7 +2883,7 @@
 				var titulo = extraer_texto(file_contents,'<meta property="og:title" content="','"');
 				imagen = extraer_texto(file_contents,'<meta property="og:image" content="','"');
 				descripcion= extraer_texto(file_contents,'<div class="info text" style="max-height: 140px;overflow:hidden">','</div>').trim();
-				
+
 				var url_video;
 				file_contents = "";
 				var page_uri = ':verenlaces:pordedeseries:';
@@ -3650,14 +2923,14 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
 		//retorna el Menu
 			var array_menu=[
 				new Item_menu('Ultimos Capitulos','views/img/folder.png',':vercontenido:newpctseries:ultimoscapitulos:'+ escape('http://www.newpct1.com/series-alta-definicion-hd/')),
-				new Item_menu('Orden Alfabetico','views/img/folder.png',':alfabeto:newpctseries:09'),
+				//new Item_menu('Orden Alfabetico','views/img/folder.png',':alfabeto:newpctseries:09'),
 				new Item_menu('Buscar Serie HD','views/img/search.png',':vercontenido:newpctseries:tipobusqueda:'+ escape('http://www.newpct1.com/buscar-descargas/'))
 				];
 		return array_menu;
@@ -3666,7 +2939,7 @@
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -3719,7 +2992,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page){
@@ -3789,7 +3062,7 @@
 		/************************************************************************************
 		/*	funcion getitem_alfabeto: Devuelve un listado de las subsecciones del canal. 	*
 		/*	Parametros:                                                                     *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna:Un objetos Item_menu													*
 		/***********************************************************************************/
 		this.getitem_alfabeto= function(page) {
@@ -3841,7 +3114,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -3860,7 +3133,7 @@
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -3897,7 +3170,7 @@
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
 		/*	Retorna: Array de servidores												    *
 		/************************************************************************************/
 		this.getservidores= function (url,page)
@@ -4101,7 +3374,8 @@
 
 		return array_playlist;
 		}
-		function parseanimeflvtipolistado(url_servidor, page)
+
+		function parseanimeflvtipolistado(url_servidor, page)
 		{
 			//http://animeflv.net/animes/letra/(letra)
 			url_servidor=unescape(url_servidor) + '/';
@@ -5051,8 +4325,7 @@
 		return array_playlist;	
 		}
 
-		function fixtitles (titulo)	
-		{
+		function fixtitles (titulo)	{
 			//var array_1 = ['á'    ,'é'    ,'í'    ,'ó'    ,'ú'    ,'Á'     ,'É'     ,'Í'     ,'Ó'      ,'Ú'     ,'ñ'    ,'Ñ'     ,'ü','à' ,'è' ,'ì','ò' ,'ù'];
 			var array_1 = [String.fromCharCode(161),String.fromCharCode(169),String.fromCharCode(173),String.fromCharCode(179),String.fromCharCode(186),String.fromCharCode(129),String.fromCharCode(137),String.fromCharCode(141),String.fromCharCode(147),String.fromCharCode(154),String.fromCharCode(177),String.fromCharCode(145),String.fromCharCode(188),String.fromCharCode(160),String.fromCharCode(168),String.fromCharCode(172),String.fromCharCode(178),String.fromCharCode(185)];
 			var array_2 = [String.fromCharCode(225),String.fromCharCode(233),String.fromCharCode(237),String.fromCharCode(243),String.fromCharCode(250),String.fromCharCode(193),String.fromCharCode(201),String.fromCharCode(205),String.fromCharCode(211),String.fromCharCode(218),String.fromCharCode(241),String.fromCharCode(209),String.fromCharCode(252),String.fromCharCode(224),String.fromCharCode(232),String.fromCharCode(236),String.fromCharCode(242),String.fromCharCode(249)];
@@ -5239,7 +4512,10 @@
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
-			
+				var url_post = 'http://www.seriesflv.net/goto/';
+				var datos_post = {'url': url};
+				var file_contents = post_urlsource(url_post,datos_post);
+				url = extraer_texto(file_contents,'<meta http-equiv="Refresh" content="15;URL=','"/>');
 			return url;		
 		}
 		
@@ -5425,7 +4701,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -5451,7 +4727,7 @@
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -5589,7 +4865,6 @@
 		
 		
 		//Metodos Privados
-				
 		function parseseriesdankoNew (params) 
 		{	//retorna el listado de las ultimas series actualizadas
 			var array_playlist=[];
@@ -5706,7 +4981,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -6254,7 +5529,6 @@
 
 			if(auth_token.error==0)
 				{
-	
 				//generar user_token
 				//var url_api_user = "http://api.series.ly/v2/user/user_token/";
 				var url_api_user = "http://api.series.ly/v2/user/user_login";
@@ -6289,7 +5563,7 @@
 												
 						var datos_post = {'auth_token': auth_token.auth_token , 'redirect_url': 'http://rantanplan.net46.net/takata/' ,'username': credentials.username ,'password': credentials.password,'remember': '1'};
 						file_contents = post_urlheaders(url_api_user,datos_post);
-	showtime.print('hola')					
+
 						if (typeof file_contents.headers['Location'] == 'undefined')
 							{
 							reason = "Usuario/Contraseña Incorrecta.";
@@ -6498,8 +5772,8 @@
 				array_menu.push(objItem)
 			}
 		
-			if (array_menu.length >1) 
-				array_menu.push(new Item_menu('Todo','views/img/folder.png',':vercontenido:listasm3u:todos:default')); 
+			//if (array_menu.length >1) 
+				//array_menu.push(new Item_menu('Todo','views/img/folder.png',':vercontenido:listasm3u:todos:default')); 
 
 		return array_menu;
 		}
@@ -6668,8 +5942,8 @@
 		//var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
 
 		var plx_list=[
-			new Item_menu('The BlackList','http://sphotos-f.ak.fbcdn.net/hphotos-ak-xfa1/t1.0-9/223879_10150330678531663_3828387_n.jpg',':vercontenido:listasplx:playlist:' + escape('http://pastebin.com/raw.phb?i=3wv2gGgh'), 'http://pastebin.com/raw.phb?i=3wv2gGgh'),
-			new Item_menu('Listas MrAlwaysAwa','http://www.userlogos.org/files/logos/Rog/livetv_ru_09.png',':vercontenido:listasplx:playlist:' + escape('http://www.navixtreme.com/playlist/97048/live_tv_channels_by_mralwaysaway.plx'), 'http://www.navixtreme.com/playlist/97048/live_tv_channels_by_mralwaysaway.plx')
+			new Item_menu('The BlackList','http://sphotos-f.ak.fbcdn.net/hphotos-ak-xfa1/t1.0-9/223879_10150330678531663_3828387_n.jpg',':vercontenido:listasplx:playlist:' + escape('http://pastebin.com/raw.php?i=G6fJyHmh'), 'http://pastebin.com/raw.php?i=G6fJyHmh')
+			//new Item_menu('Listas MrAlwaysAwa','http://www.userlogos.org/files/logos/Rog/livetv_ru_09.png',':vercontenido:listasplx:playlist:' + escape('http://www.navixtreme.com/playlist/97048/live_tv_channels_by_mralwaysaway.plx'), 'http://www.navixtreme.com/playlist/97048/live_tv_channels_by_mralwaysaway.plx')
 			];
 		
 		//Añadir lista service.urlplx_listasplx si existe
@@ -7200,7 +6474,7 @@
 //																		//
 // 		Funciones genericas												//
 //																		//
-//////////////////////////////////////////////////////////////////////////		
+//////////////////////////////////////////////////////////////////////////
 
 
 	function get_urlheaders(url_servidor) {
@@ -7287,7 +6561,7 @@
 
 		var codigo_html = showtime.httpReq(url_servidor, 
 			{
-			debug: true,
+			debug: false,
 			compression: true,
 			noFollow: true,
 			method: 'POST',
@@ -7306,7 +6580,6 @@
 		//Si no existe la cadena inicial o la cadena final dentro del texto retorna un texto vacio
 		var pos_ini;
 		var pos_final;
-
 
 		pos_ini = texto.indexOf(cadena_inicial);
 		if (pos_ini==-1) return '';
@@ -7555,7 +6828,7 @@ function utf8_encode(argString) {
 	var licencia = '';
 	var licencia_md5 = '1e7c1eac9e131fe3a01d7594c071bf8c'; //not4kids
 
-	var canal_test=true; //for testing only
+	var canal_test=false; //for testing only
 
 	var objCanal;
 	var objHistorial=new StoreHistorial();
@@ -7632,7 +6905,7 @@ function utf8_encode(argString) {
 	//startPage
 	function startPage(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		
+
 		//Terminos
 		if (!settings['terminos'])
 			{
@@ -7687,8 +6960,7 @@ function utf8_encode(argString) {
 				icon: menu_principal[i].imagen});
 
 		}
-		
-		
+
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
@@ -7704,7 +6976,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var menu_peliculas=CanalFactory.getListadoCanales('peliculas').sortBy('titulo');
 
 		//Añadimos los objetos al menu Peliculas
@@ -7715,7 +6987,7 @@ function utf8_encode(argString) {
 				titlecover : menu_peliculas[i].titulo,
 				icon: menu_peliculas[i].imagen});	
 		}	
-		
+
 		page.loading = false;
 	});
 	//Pagina Peliculas
@@ -7727,7 +6999,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var menu_series=CanalFactory.getListadoCanales('series').sortBy('titulo');
 
 		//Añadimos los objetos al menu Series
@@ -7750,7 +7022,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var menu_anime=CanalFactory.getListadoCanales('anime').sortBy('titulo');
 
 		//Añadimos los objetos al menu Anime
@@ -7773,7 +7045,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var menu_tvonline=CanalFactory.getListadoCanales('tvonline').sortBy('titulo');
 
 		//Añadimos los objetos al menu TV Online
@@ -7784,7 +7056,7 @@ function utf8_encode(argString) {
 				titlecover : menu_tvonline[i].titulo,
 				icon: menu_tvonline[i].imagen});	
 		}	
-		
+
 		page.loading = false;
 	});
 	//Pagina TVonline
@@ -7796,7 +7068,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var menu_adultos=CanalFactory.getListadoCanales('adultos').sortBy('titulo');
 
 		//Añadimos los objetos al menu Adultos
@@ -7819,7 +7091,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var item;
 		if(periodo=="main")
 			{
@@ -7890,7 +7162,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var lista = objFavoritos.getItems();
 
 		var item={};
@@ -7926,7 +7198,7 @@ function utf8_encode(argString) {
 							}
 				});
 			}
-		
+
 		page.loading = false;
 	});
 	//Pagina Favoritos
@@ -7938,7 +7210,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/list3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var item=objCanal.getitem_alfabeto(page);
 
 		var array_alfabeto=['0-9',"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -7953,7 +7225,7 @@ function utf8_encode(argString) {
 				title: array_alfabeto[i],
 				icon: plugin.path + "views/img/folder.png"});
 			}
-			
+
 		page.metadata.title = item.titulo;
 		page.loading = false;
 	});			
@@ -7966,7 +7238,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/array3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var array_menu=[];
 
 		objCanal=CanalFactory.createCanal(canal); 
@@ -7994,7 +7266,7 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/list3.view";
 		page.type = "directory";
 		page.contents = "items";
-				
+
 		var array_playlist=[];
 
 		if (objCanal == undefined) {objCanal=CanalFactory.createCanal(canal);}
@@ -8005,9 +7277,9 @@ function utf8_encode(argString) {
 		//pintar el vercontenido se recorre el array y se pinta
 		if (array_playlist.length == 0)
 		{
-		showtime.notify('No se ha encontrado contenido en esta pagina',3);
+			showtime.notify('No se ha encontrado contenido en esta pagina',3);
 		}else{
-		var item;
+			var item;
 			for (var i=0;i<array_playlist.length;i++)
 			{
 				item = page.appendItem(array_playlist[i].page_uri + escape(array_playlist[i].url), "directory", {
@@ -8033,8 +7305,6 @@ function utf8_encode(argString) {
 								'host':this.host}))	
 									showtime.notify(this.titulo + ' agregado a favoritos',3);	
 					});
-				
-				
 			}
 		}
 
@@ -8052,13 +7322,14 @@ function utf8_encode(argString) {
 		page.metadata.glwview = plugin.path + "views/list3.view";
 		page.type = "directory";
 		page.contents = "items";
-		
+
 		var array_servidores=[];
 		var tipo_video;
 
 		if (objCanal == undefined) {objCanal=CanalFactory.createCanal(canal);}
 			else {if (objCanal.name != canal) objCanal=CanalFactory.createCanal(canal);}
-	
+
+
 		array_servidores=objCanal.getservidores(url,page);
 
 		//pintar el playlist se recorre el array y se pinta
@@ -8092,10 +7363,9 @@ function utf8_encode(argString) {
 					});
 				}
 		}
-		
 		page.metadata.title = new showtime.RichText(objCanal.item_Actual.titulo);
 		page.metadata.icon = objCanal.item_Actual.imagen;
-		page.metadata.description = new showtime.RichText(objCanal.item_Actual.descripcion);	
+		page.metadata.description = new showtime.RichText(objCanal.item_Actual.descripcion);
 		page.loading = false;
 	});
 	//Listado del mismo item x todo los servers disponibles
@@ -8112,12 +7382,12 @@ function utf8_encode(argString) {
 		titulo = unescape(titulo);
 		imagen = unescape(imagen);
 		url_video = unescape(url_video);
-
+//showtime.print("url_video: " + url_video)	
 		if (objCanal == undefined) {objCanal=CanalFactory.createCanal(canal);}
 			else {if (objCanal.name != canal) objCanal=CanalFactory.createCanal(canal);}
 
 		var url_servidor=objCanal.geturl_host(url_video, page);
-
+//showtime.print("url_servidor: " + url_servidor)	
 		var objHost=HostFactory.createHost(host,{"servidor":host});	
 		var url_video2= objHost.geturl_video(url_servidor);
 
@@ -8173,9 +7443,11 @@ function utf8_encode(argString) {
 		
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
+
 		/*	Parametros:                                                                      *
 		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
 		/*	Retorna: Array de objetos Item_menu									             *
+
 		/************************************************************************************/
 		this.getmenu= function(page){
 		//retorna el Menu
@@ -8213,18 +7485,19 @@ function utf8_encode(argString) {
 					var serie= get_SerieTvdb (escape(texto_busqueda));
 					showtime.print (showtime.JSONEncode(serie));		
 					break;
-				
 			}	
 		return array_playlist;
 		}
 		
 		/************************************************************************************
 		/*	funcion getservidores: Devuelve un listado de enlaces al contenido en los 		*
+
 		/*							servidores soportados. 								    *
 		/*	Parametros: 																    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
 		/*	Retorna: Array de servidores												    *
+
 		/************************************************************************************/
 		this.getservidores= function (url,page)	{
 			return false;
@@ -8232,10 +7505,12 @@ function utf8_encode(argString) {
 		
 		/***********************************************************************************
 		/*	funcion geturl_host: Devuelve la url del host donde se aloja el video.	       *
+
 		/*	Parametros:																       *
 		/*		url: direccion de la que se debe extraer la lista.					       *
 		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
 		/*	Retorna: String que representa la url									       *
+
 		/**********************************************************************************/
 		this.geturl_host= function (url,page){
 			return url;			
@@ -8325,7 +7600,6 @@ function utf8_encode(argString) {
 			
 			return array_playlist;
 			}
-		
 		
     
 	}
