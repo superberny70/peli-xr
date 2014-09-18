@@ -53,7 +53,7 @@
 
 			var titulo;
 			var imagen;
-			var url_host;
+			var url_video;
 			var servidor;
 			var idioma;
 			var calidad;
@@ -62,7 +62,7 @@
 		
 			/*
 			var params={
-				"url_host" : url_host,
+				"url_video" : url_video,
 				"servidor" : servidor,
 				"idioma" : idioma,
 				"calidad" : calidad

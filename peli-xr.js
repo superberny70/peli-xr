@@ -19,7 +19,7 @@
  
 (function(plugin) {
 
-// var version = '0.10.0b';
+// var version = '0.10.1b';
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -389,124 +389,7 @@
 		}
 
 	}
-	HostFactory.registrarHost("filenuke",Filenuke); //Registrar la clase Filenuke
-
-	/********************************************************************************	
-	/* var Magnovideo: Objeto que representa el servidor Magnovideo					*
-	/*		Hereda de Host															*
-	/********************************************************************************/
-	var Magnovideo= function() {
-
-		//metodos publicos
-
-		/************************************************************************
-		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
-		/*	Parametros: ninguno													*
-		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
-		/***********************************************************************/
-		this.esservidoradulto= function () {
-			return false;
-		}
-
-		/****************************************************************************
-		/*	funcion geturl_video: Devuelve la url del video.						*
-		/*	Parametros:																*
-		/*		url_servidor: direccion de la que se debe extraer la url del video.	*	
-		/*	Retorna: String que representa la url del video o 'error'				*									*
-		/***************************************************************************/
-		this.geturl_video= function (url_servidor)
-		{
-			var id_magnovideo;
-			id_magnovideo = url_servidor.replace('http://www.magnovideo.com/?v=','');
-			url_servidor = 'http://www.magnovideo.com/player_config.php?mdid=' + id_magnovideo + '&sml=1&autoplay=true';
-
-			var file_contents = get_urlsource(url_servidor);	
-			var storage_path = extraer_texto(file_contents,'<storage_path>','</storage_path>');
-			var video_name = extraer_texto(file_contents,'<video_name>','</video_name>');
-			var title_thumbs = extraer_texto(file_contents,'<tile_thumbs>','</tile_thumbs>');
-			var movie_burst  = extraer_texto(file_contents,'<movie_burst>','</movie_burst>') + 'k';
-			var burst_speed  = extraer_texto(file_contents,'<burst_speed>','</burst_speed>') + 'k';
-			var ste  = extraer_texto(file_contents,'<ste>','</ste>');
-
-			//construir la url
-			var pos_aux;
-			var aux_string = title_thumbs;
-
-			pos_aux = aux_string .indexOf('storage/files/');
-			aux_string = aux_string .substr(pos_aux+14);
-			pos_aux = aux_string .indexOf('/');
-			aux_string = aux_string .substr(pos_aux+1);
-			aux_string = aux_string.replace('tmpsmall/tiles.jpg','');
-
-			var url_video = storage_path + 'storage/files/' + aux_string + video_name + '?burst=' + movie_burst + '&u=' + burst_speed + '&' + ste;
-
-			showtime.sleep(1000);
-
-			//showtime.trace('Debug: ' + url_video);
-			//"http://e1.magnovideo.com:8080/storage/files/0/15/107/52/1.mp4?burst=5905k&u=600k&md=3LOQPhshwrZSW1knDdUGiA&e=1391099841"
-			//http://www.magnovideo.com/player_config.php?mdid="+id_video+"&sml=1&autoplay=true
-			//http://www.magnovideo.com/?v=JCRFATY
-			//http://www.magnovideo.com/player_config.php?mdid=JCRFATY&sml=1&autoplay=true
-
-		return url_video;
-		}
-
-	}
-	//HostFactory.registrarHost("magnovideo",Magnovideo); //Registrar la clase Magnovideo
-
-	/********************************************************************************	
-	/* var Mightyupload: Objeto que representa el servidor Mightyupload				*
-	/*		Hereda de Host															*
-	/*******************************************************************************/
-	var Mightyupload= function() {
-
-		//metodos publicos
-
-		/************************************************************************
-		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
-		/*	Parametros: ninguno													*
-		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
-		/***********************************************************************/
-		this.esservidoradulto= function () {
-			return false;
-		}
-
-		/****************************************************************************
-		/*	funcion geturl_video: Devuelve la url del video.						*
-		/*	Parametros:																*
-		/*		url_servidor: direccion de la que se debe extraer la url del video.	*	
-		/*	Retorna: String que representa la url del video o 'error'				*									*
-		/***************************************************************************/
-		this.geturl_video= function (url_servidor)
-		{
-			var file_contents = get_urlsource(url_servidor);
-			var error = file_contents.indexOf('File Not Found')
-			if(error==-1)
-			{
-				var op = extraer_texto(file_contents,'<input type="hidden" name="op" value="','"');
-				var id = extraer_texto(file_contents,'<input type="hidden" name="id" value="','"');
-				var rand = extraer_texto(file_contents,'<input type="hidden" name="rand" value="','"');
-				var referer = extraer_texto(file_contents,'<input type="hidden" name="referer" value="','"');
-				var plugins_are_not_allowed = extraer_texto(file_contents,'<input type="hidden" name="plugins_are_not_allowed" value="','"');
-				var method_free = extraer_texto(file_contents,'<input type="hidden" name="method_free" value="','"');
-				var method_premium = extraer_texto(file_contents,'<input type="hidden" name="method_premium" value="','"');
-				var down_direct = extraer_texto(file_contents,'<input type="hidden" name="down_direct" value="','"');
-				file_contents = ""
-				showtime.sleep(1000);
-
-				var datos_post = {'op':op, 'id':id, 'rand':rand, 'referer':referer, 'plugins_are_not_allowed':plugins_are_not_allowed, 'method_free':method_free, 'method_premium':method_premium, 'down_direct':down_direct};
-				file_contents = post_urlsource(url_servidor,datos_post);
-				var url_video = extraer_texto(file_contents,"file: '","'");
-				file_contents = "";
-			}else{
-				url_video='error';
-			}
-		return url_video;
-		}
-
-
-	}
-	//HostFactory.registrarHost("mightyupload",Mightyupload); //Registrar la clase Mightyupload
+	//HostFactory.registrarHost("filenuke",Filenuke); //Registrar la clase Filenuke
 
 	/********************************************************************************	
 	/* var Movshare: Objeto que representa el servidor Movshare						*
@@ -536,30 +419,34 @@
 			//detectar el tipo hay .me y .net
 			var dominio= url_servidor.split('/')[2].match(/\.\w{2,3}$/i);
 			if(dominio=='.me')
-			{
-				url_video='error';				
-			}else{			
+				{
+				url_video='error';
+				}
+			else
+				{			
 				var file_contents = get_urlsource(url_servidor);
 				var error = file_contents.indexOf('This file no longer exists')
 				if(error==-1)
 				{
-					var videoplay = extraer_texto(file_contents,'<input type="hidden" name="videoplay" value="','"');
-					file_contents = ""
-					showtime.sleep(1000);
-
-					var datos_post = {'videoplay':videoplay};
-					file_contents = post_urlsource(url_servidor,datos_post);
-					var url_video = extraer_texto(file_contents,'file: "','"');
+					var fcid1 = extraer_texto(file_contents,'flashvars.cid="','"');
+					var ffile = extraer_texto(file_contents,'flashvars.file="','"');
+					var fkey = extraer_texto(file_contents,'flashvars.filekey="','"');
+					var url_api_video = "http://www.movshare.net/api/player.api.php?cid=" + fcid1 + "&user=undefined&file=" + ffile + "&key=" + fkey + "&cid2=undefined&cid3=undefined&pass=undefined&numOfErrors=0";
+					file_contents = get_urlsource(url_api_video);
+					var url_video = extraer_texto(file_contents,'url=','&');
 					file_contents = "";
-				}else{
+					}
+				else
+					{
 					url_video='error';
+					}
 				}
-			}
+				
 		return url_video;
 		}
 
 	}
-	//HostFactory.registrarHost("movshare",Movshare); //Registrar la clase Movshare
+	HostFactory.registrarHost("movshare",Movshare); //Registrar la clase Movshare
 
 	/********************************************************************************	
 	/* var Novamov: Objeto que representa el servidor Novamov						*
@@ -744,8 +631,8 @@
 		/****************************************************************************
 		/*	funcion geturl_video: Devuelve la url del video.						*
 		/*	Parametros:																*
-		/*		url_servidor: direccion de la que se debe extraer la url del video.	*	
-		/*	Retorna: String que representa la url del video o 'error'				*									*
+		/*		url_servidor: direccion de la que se debe extraer la url del video.	*
+		/*	Retorna: String que representa la url del video o 'error'				*
 		/***************************************************************************/
 		this.geturl_video= function (url_servidor)
 		{
@@ -782,7 +669,7 @@
 		}
 
 	}
-	//HostFactory.registrarHost("streamcloud",Streamcloud); //Registrar la clase Streamcloud
+	HostFactory.registrarHost("streamcloud",Streamcloud); //Registrar la clase Streamcloud
 
 	/********************************************************************************	
 	/* var Videobam: Objeto que representa el servidor Videobam						*
@@ -1099,9 +986,9 @@
 
 	}
 	HostFactory.registrarHost("xvideos",Xvideos); //Registrar la clase Xvideos
-		
-	/********************************************************************************	
-	/* var Youtube: Objeto que representa el servidor Vidspot						*
+
+	/********************************************************************************
+	/* var Youtube: Objeto que representa el servidor Youtube						*
 	/*		Hereda de Host															*
 	/********************************************************************************/
 	var Youtube= function() {
@@ -1222,6 +1109,45 @@
 		
 	}
 	HostFactory.registrarHost("youtube",Youtube); //Registrar la clase Youtube
+
+	/********************************************************************************	
+	/* var Videomega: Objeto que representa el servidor Movshare						*
+	/*		Hereda de Host															*
+	/********************************************************************************/
+	var Videomega= function() {
+
+		//metodos publicos
+
+		/************************************************************************
+		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
+		/*	Parametros: ninguno													*
+		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
+		/***********************************************************************/
+		this.esservidoradulto= function ()	{
+			return false;
+		}
+
+		/****************************************************************************
+		/*	funcion geturl_video: Devuelve la url del video.						*
+		/*	Parametros:																*
+		/*		url_servidor: direccion de la que se debe extraer la url del video.	*	
+		/*	Retorna: String que representa la url del video o 'error'				*									*
+		/***************************************************************************/
+		this.geturl_video= function (url_servidor)	{
+			var file_contents = get_urlsource(url_servidor);
+			file_contents = extraer_texto(file_contents,'<div>&lt;iframe ','</div>');
+			url_servidor = extraer_texto(file_contents,'src="','"');
+			file_contents = get_urlsource(url_servidor);
+			var aux_string = unescape(extraer_texto(file_contents,'document.write(unescape("','"'));
+			file_contents = "";
+			var url_video = extraer_texto(aux_string,'file: "','"')
+				
+		return url_video;
+		}
+
+	}
+	HostFactory.registrarHost("videomega",Videomega); //Registrar la clase Videomega
+
 	
 //servidores de video
 //
@@ -1403,11 +1329,10 @@
 		this.getmenu= function(page){
 		//retorna el Menu
 			var array_menu=[
-				//new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/peliculas-castellano/peliculas-rip/')),
-				new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/peliculas/')),
-				new Item_menu('Estrenos de Cine','views/img/folder.png',':vercontenido:newpct:tipoestrenoscine:' + escape('http://www.newpct1.com/peliculas-castellano/estrenos-de-cine/;1')),
-				new Item_menu('V.O. Subtituladas','views/img/folder.png',':vercontenido:newpct:tipovo:' + escape('http://www.newpct1.com/peliculas-vo/;1')),
-				new Item_menu('Buscar','views/img/search.png',':vercontenido:newpct:tipobusqueda:' + escape('http://www.newpct1.com/buscar-descargas/'))
+				new Item_menu('Br-Dvd Castellano','views/img/folder.png',':vercontenido:newpct:tipobrdvd:'+ escape('http://www.newpct1.com/index.php?page=categorias&url=peliculas&letter=&pg=1')),
+				new Item_menu('Estrenos de Cine','views/img/folder.png',':vercontenido:newpct:tipoestrenoscine:' + escape('http://www.newpct1.com/index.php?page=categorias&url=estrenos-de-cine&letter=&pg=1')),
+				new Item_menu('V.O. Subtituladas','views/img/folder.png',':vercontenido:newpct:tipovo:' + escape('http://www.newpct1.com/index.php?page=categorias&url=peliculas-vo&letter=&pg=1')),
+				new Item_menu('Buscar','views/img/search.png',':vercontenido:newpct:tipobusqueda:' + escape('http://www.newpct1.com/buscar'))
 			];
 
 			return array_menu;
@@ -1429,34 +1354,33 @@
 		switch (tipo)
 			{
 			case "tipobrdvd":
+			
 				page.metadata.title = "NewPct - Br-Dvd Castellano";
-				var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=todo&leter=&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(1537%2C+758%2C+1105%2C+760%2C+1225))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=1225');
-				var params={'url_servidor': unescape(url_2),
+				var params={'url_servidor': unescape(url),
 					'page_uri': ':verenlaces:newpct:',
 					'uri_siguiente': ':vercontenido:newpct:tipo1:',
 					'subtitulo':false}	
-				array_playlist=this.parsenewpcttipodefault(url,params);
+				array_playlist= this.parsenewpct (params);
 				break;
 			case "tipoestrenoscine":
 				page.metadata.title = "NewPct - Estrenos de Cine";
-				var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=todo&leter=&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(1231%2C+1165%2C+1230%2C+1232%2C+766%2C+765%2C+761%2C+848%2C+1224))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=1224');
-				var params={'url_servidor': unescape(url_2),
+				//var url_2='http://www.newpct1.com/index.php?page=categorias&url=estrenos-de-cine&letter=&pg=1';
+				var params={'url_servidor': unescape(url),
 					'page_uri': ':verenlaces:newpct:',
 					'uri_siguiente': ':vercontenido:newpct:tipo1:',
 					'subtitulo':false}	
-				array_playlist=this.parsenewpcttipodefault(url,params);
+				array_playlist= this.parsenewpct (params);
 				break;
 			case "tipovo":
 				page.metadata.title = "NewPct - V.O. Subtituladas";
-				var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=todo&leter=&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(779%2C+784%2C+787%2C+788%2C+786%2C+778))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=778');
-				var params={'url_servidor': unescape(url_2),
+				//var url_2='http://www.newpct1.com/index.php?page=categorias&url=peliculas-vo&letter=&pg=1';
+				var params={'url_servidor': unescape(url),
 					'page_uri': ':verenlaces:newpct:',
 					'uri_siguiente': ':vercontenido:newpct:tipo1:',
 					'subtitulo':false}	
-				array_playlist=this.parsenewpcttipodefault(url,params);
+				array_playlist= this.parsenewpct (params);
 				break;
 			case "tipo1":
-				//array_playlist=parsenewpctpeliculastipo1(page,url);
 				var params={'url_servidor': unescape(url),
 					'page_uri': ':verenlaces:newpct:',
 					'uri_siguiente': ':vercontenido:newpct:tipo1:',
@@ -1494,39 +1418,30 @@
 		var calidad;
 		var descripcion;
 
-		//check login
-
-		file_contents = that.checkloginnewpct(url, file_contents);
+		
 		if(file_contents!=false)
 			{
 			//item_Actual
-			//titulo = extraer_texto(file_contents ,'<img itemprop="image"','/>');
-			//titulo = extraer_texto(titulo ,'alt="','"');
-			titulo = extraer_texto(file_contents ,'<title>','Descargar');
-			imagen = extraer_texto(file_contents ,'<meta property="og:image" content="','" />');
-			descripcion = extraer_texto(file_contents ,"</div><div class='sinopsis'>","</div>");
+			titulo = extraer_texto(file_contents ,'<h1><strong>','</strong>');
+			imagen = extraer_texto(file_contents ,'<div class="entry-left">','</div>');
+			imagen = extraer_texto(imagen ,'<img src="','"');
+			descripcion = extraer_texto(file_contents ,"<div class='descripcion_top'>","</div>");
 
 			this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);
 
-
-			file_contents = extraer_texto(file_contents,"<thead id='ver-online'>","</table>");
-			file_contents = extraer_texto(file_contents,'<tbody>','</tbody>');
-			//<tr to </tr>
-			var array_aux = extraer_html_array(file_contents,'<tr','</tr>');
+			file_contents = extraer_texto(file_contents,'<div id="tab3"','</ul>');
+			var array_aux = extraer_html_array(file_contents,'<div class="box1">','<div class="box6">');
 			file_contents = "";
 
 
 			var array_aux2=[];
 			for (var i=0;i<array_aux.length;i++)
 				{
-				if(array_aux[i].indexOf('<td>ver en 1 Link</td>')!='-1')
-					{
+					servidor = extraer_texto(array_aux[i],'<div class="box2">','</div>');	
+					idioma = extraer_texto(array_aux[i],'<div class="box3">','</div>');
+					calidad = extraer_texto(array_aux[i],'<div class="box4">','</div>');
 					url_host = extraer_texto(array_aux[i],"<a href='","'");
-					array_aux2 = extraer_html_array(array_aux[i],'<td>','</td>');
-					servidor = extraer_texto(array_aux2[0],'<td>','</td>');	
-					idioma = extraer_texto(array_aux2[1],'<td>','</td>');
-					calidad = extraer_texto(array_aux2[2],'<td>','</td>');
-
+				
 					var params={
 							"url_host" : url_host,
 							"servidor" : servidor,
@@ -1539,9 +1454,7 @@
 						{ 
 							array_servidores.push(objHost);
 						} 
-					}
 				}
-
 			}
 		return array_servidores;
 		}
@@ -1558,72 +1471,23 @@
 		}
 
 
-		//Estos metodos son publicos para poder acceder desde los herederos
-		this.checkloginnewpct= function (url_servidor, file_contents)
-		{
-		var logueado = file_contents.indexOf("//loadtopBar('');")
-		var valor_retorno=false;
-		if(logueado!=-1) //no logueado
-			{
-			var reason = 'Introduce tu usuario y contraseña de http://www.newpct.com';
-			var do_query = false;
-			while(1)
-				{
-				var credentials = plugin.getAuthCredentials("NewPct", reason, do_query, 'newpct');
-				if(!credentials)
-					{
-					if(!do_query)
-						{
-						do_query = true;
-						continue;
-						}
-					break;
-					}
-				if (credentials.rejected) {break;}
-				if (credentials.username == "" || credentials.password == "")
-					{
-					if (!do_query)
-						{
-						do_query = true;
-						continue;
-						}
-					break;
-					}
-
-				try
-					{
-					var datos_post = {'userName': credentials.username,'userPass': credentials.password};
-					file_contents = post_urlsource('http://www.newpct1.com/entrar',datos_post);
-					var usuario = extraer_texto(file_contents,"loadtopBar('","'");
-					if(usuario!='')
-						{
-						if(do_query == true) {showtime.notify('Logueado en NewPct como: ' + credentials.username, 3);}
-						valor_retorno = get_urlsource(url_servidor);
-						break;
-						}
-					else
-						{
-						reason = "Usuario/Contraseña Incorrecta.";
-						continue;
-						}
-					}
-					catch (ex) { showtime.trace('NewPct: error al autenticarse.'); break; }
-				}
-			}
-		else {valor_retorno = file_contents;} //logueado
-
-		return valor_retorno;
-		}
-
-
 		this.parsenewpct= function (params) 
 		{	
 		/*var params={'url_servidor': ,'page_uri': ,'uri_siguiente': ,'subtitulo': }*/
-		var numero_pagina = parseInt(extraer_texto(params.url_servidor,'pag=','&'));			
+		
+		var numero_pagina =  parseInt(params.url_servidor.substr(params.url_servidor.lastIndexOf("pg=")+3));
+		
 		var file_contents = get_urlsource(params.url_servidor);
-		var ultima_pagina = extraer_texto(file_contents,"<div id='centPag'>","</div>");
-		ultima_pagina = ultima_pagina.substr(ultima_pagina.lastIndexOf("<a href='javascript:;'  class='todo'  onclick=\"orderCategory('todo','','"));
-		ultima_pagina = extraer_texto(ultima_pagina,"<a href='javascript:;'  class='todo'  onclick=\"orderCategory('todo','','","'");
+		var ultima_pagina = extraer_texto(file_contents,'<ul class="pagination">','</ul>');
+		ultima_pagina = ultima_pagina.substr(ultima_pagina.lastIndexOf("<a href="));
+		ultima_pagina = extraer_texto(ultima_pagina,'pg=','"');
+		if (params.buscar == true)
+		{
+			file_contents = extraer_texto(file_contents,'<ul class="buscar-list">','</ul>');
+		}else{
+			file_contents = extraer_texto(file_contents,'<ul class="pelilist">','</ul>');
+		}
+		
 		var array_aux = extraer_html_array(file_contents,'<li>','</li>');
 		file_contents = "";
 
@@ -1634,15 +1498,27 @@
 
 		for (var i=0;i<array_aux.length;i++)
 			{
-			imagen=extraer_texto(array_aux[i],"<img src='","'");
-			url_video=extraer_texto(array_aux[i],"<a href='","'>");
-			file_contents = extraer_texto(array_aux[i], "<div class='cover boxcaption'>", "</div>");
-		
-			titulo=extraer_texto(file_contents,'<h3>','</h3>');
-			if (params.subtitulo) titulo=titulo + ' ' + extraer_texto(array_aux[i],'<p>','<br/>');
-			//calidad = extraer_texto(file_contents, "Calidad:", "<br>");
-           // idioma = extraer_texto(file_contents, "Idioma :", "</p>");
-	
+			imagen=extraer_texto(array_aux[i],'<img src="','"');
+			if (params.serie==true)
+			{
+				url_video=extraer_texto(array_aux[i],'<a href="','"');
+			}else{
+				url_video='http://www.newpct1.com/ver-online/' + extraer_texto(array_aux[i],'<a href="http://www.newpct1.com/','"');
+			}
+			
+			
+			if (params.buscar == true)
+			{
+				titulo=extraer_texto(array_aux[i],'<h2 style="padding:0;">','</h2>');
+			}else{
+				titulo=extraer_texto(array_aux[i],'<h2>','</h2>');
+			}
+			//Eliminar tag html
+			var regex = /(<([^>]+)>)/ig 
+			titulo=titulo.replace(regex,"");
+			
+			//if (params.subtitulo) titulo=titulo + ' ' + extraer_texto(array_aux[i],'<p>','<br/>');
+				
 			array_playlist.push(new Item_menu(titulo,imagen,params.page_uri,url_video));
 			}
 
@@ -1650,7 +1526,7 @@
 		var pagina_siguiente = (parseInt(numero_pagina) + 1);
 		if(numero_pagina<ultima_pagina)
 			{
-				array_playlist.push(new Item_menu('Siguiente',"views/img/siguiente.png",params.uri_siguiente,params.url_servidor.replace('pag=' + numero_pagina,'pag=' + pagina_siguiente)));		
+				array_playlist.push(new Item_menu('Siguiente',"views/img/siguiente.png",params.uri_siguiente,params.url_servidor.replace('pg=' + numero_pagina,'pg=' + pagina_siguiente)));		
 			}
 
 		return array_playlist;
@@ -1667,21 +1543,25 @@
 
 		if(texto_busqueda != undefined)
 			{
-			var datos_post = 
+			/*var datos_post = 
 				{
-				'cID': 0, 'tLang': 0, 'oBy': 0,	'oMode': 0, 'category_': op_categoria, 'subcategory_' : 'All',
+				'cID': 0, 'tLang': 0, 'oBy': 0,	'oMode': 0, 'categoryIDR': op_categoria, 'subcategory_' : 'All',
 				'idioma_': 'All', 'calidad_': 'All', 'oByAux': 0, 'oModeAux': 0, 'size_': 0,
 				'q': texto_busqueda, 'btnb': 'Filtrar+Busqueda'
-				};
+				}; // http://www.newpct1.com/index.php?page=buscar&url=&letter=&q=pedro&categoryID=&categoryIDR=757&calidad=&idioma=&ordenar=Fecha&inon=Descendente&pg=1
 			var file_contents = post_urlsource(url_servidor,datos_post);
-			var resultados = file_contents.indexOf('No hemos encontrado resultados');
-
-			page.metadata.title = page.metadata.title + texto_busqueda;
+			var aux_string = extraer_texto(file_contents ,'<ul class="buscar-list">','</ul>');
+			var array_aux = extraer_html_array(aux_string,'<li>','</li>');
+			
+			
+			
+			
 
 			if(resultados==-1)
 				{
-				var aux_string = extraer_texto(file_contents ,'<tbody>','</tbody>');
-				var array_aux = extraer_html_array(aux_string,'<tr>','</tr>');
+
+				showtime.print(aux_string)				
+				
 				array_aux.sort();
 
 				var titulo;
@@ -1699,22 +1579,23 @@
 						array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
 						}
 					}
-				}
-			//devuelve bastantes resultados no veo necesario usar paginas
+				}*/
+			
+			// http://www.newpct1.com/index.php?page=buscar&url=&letter=&q=pedro&categoryID=&categoryIDR=757&calidad=&idioma=&ordenar=Fecha&inon=Descendente&pg=1
+			page.metadata.title = page.metadata.title + texto_busqueda;
+			
+			var url='http://www.newpct1.com/index.php?page=buscar&url=&letter=&q=' + texto_busqueda + '&categoryID=&categoryIDR=' + op_categoria + '&calidad=&idioma=&ordenar=Fecha&inon=Descendente&pg=1';
+			
+			var params={'url_servidor': unescape(url),
+					'page_uri': ':verenlaces:newpct:',
+					'uri_siguiente': ':vercontenido:newpct:tipo1:',
+					'subtitulo':false,
+					'buscar':true}	
+			
+			array_playlist= that.parsenewpct (params);
+			
+			
 			}
-
-		return array_playlist;
-		}
-
-
-		this.parsenewpcttipodefault = function(url_servidor,params){
-			url_servidor=unescape(url_servidor);
-			var array_playlist=[];
-
-			var file_contents = get_urlsource(url_servidor);
-			//check_login
-			file_contents = that.checkloginnewpct(url_servidor, file_contents);
-			if(file_contents!=false) array_playlist= this.parsenewpct (params);
 
 		return array_playlist;
 		}
@@ -2399,7 +2280,7 @@
 		//Añadir lista service.urlxml_liveStream si existe
 			if ((service.urlxml_liveStream.startsWith('http') && service.urlxml_liveStream.endsWith('.xml')) || service.urlxml_liveStream.startsWith('http://pastebin.com'))
 				{
-				xml_list.push(new Item_menu('Personal','views/img/folder.png',':vercontenido:livestream:Lista Personal:' + escape(service.urlxml_liveStream),service.urlxml_liveStream)); 
+				xml_list.push(new Item_menu('Personal','views/img/folder.png',':vercontenido:livestream:Lista Personal:' + escape(service.urlxml_liveStream),service.urlxml_liveStream));
 				}
 
 		//metodos publicos
@@ -2929,9 +2810,9 @@
 		this.getmenu= function(page){
 		//retorna el Menu
 			var array_menu=[
-				new Item_menu('Ultimos Capitulos','views/img/folder.png',':vercontenido:newpctseries:ultimoscapitulos:'+ escape('http://www.newpct1.com/series-alta-definicion-hd/')),
-				//new Item_menu('Orden Alfabetico','views/img/folder.png',':alfabeto:newpctseries:09'),
-				new Item_menu('Buscar Serie HD','views/img/search.png',':vercontenido:newpctseries:tipobusqueda:'+ escape('http://www.newpct1.com/buscar-descargas/'))
+				new Item_menu('Ultimos Capitulos','views/img/folder.png',':vercontenido:newpctseries:ultimoscapitulos:'+ escape('http://www.newpct1.com/index.php?page=categorias&url=series-hd/&letter=&pg=1')),
+				new Item_menu('Orden Alfabetico','views/img/folder.png',':alfabeto:newpctseries:0-9'),
+				new Item_menu('Buscar Serie HD','views/img/search.png',':vercontenido:newpctseries:tipobusqueda:'+ escape('http://www.newpct1.com/buscar'))
 				];
 		return array_menu;
 		}
@@ -2950,12 +2831,14 @@
 				{
 				case "ultimoscapitulos": 
 					page.metadata.title = "NewPct Series HD";
-					var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=todo&leter=&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(1772%2C+1582%2C+1473%2C+1708%2C+1474%2C+1603%2C+1596%2C+1611%2C+1693%2C+1699%2C+1759%2C+1769%2C+1598%2C+1514%2C+1605%2C+1585%2C+1472%2C+1754%2C+1689%2C+1475%2C+1687%2C+1649%2C+1643%2C+1476%2C+1486%2C+1618%2C+1490%2C+1657%2C+1606%2C+1498%2C+1493%2C+1639%2C+1488%2C+1684%2C+1505%2C+1691%2C+1495%2C+1624%2C+1470%2C+1746%2C+1676%2C+1629%2C+1511%2C+1748%2C+1677%2C+1484%2C+1485%2C+1580%2C+1763%2C+1744%2C+1481%2C+1520%2C+1696%2C+1492%2C+1508%2C+1727%2C+1711%2C+1579%2C+1489%2C+1706%2C+1757%2C+1487%2C+1583%2C+1477%2C+1701%2C+1518%2C+1526%2C+1654%2C+1694%2C+1491%2C+1478%2C+1681%2C+1714%2C+1668%2C+1619%2C+1581%2C+1479%2C+1483%2C+1500%2C+1729%2C+1584%2C+1740%2C+1602%2C+1646%2C+1656%2C+1471%2C+1469))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=1469');
-					var params={'url_servidor': unescape(url_2),
-								'page_uri': ':verenlaces:newpctseries:',
+					//var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=todo&leter=&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(1772%2C+1582%2C+1473%2C+1708%2C+1474%2C+1603%2C+1596%2C+1611%2C+1693%2C+1699%2C+1759%2C+1769%2C+1598%2C+1514%2C+1605%2C+1585%2C+1472%2C+1754%2C+1689%2C+1475%2C+1687%2C+1649%2C+1643%2C+1476%2C+1486%2C+1618%2C+1490%2C+1657%2C+1606%2C+1498%2C+1493%2C+1639%2C+1488%2C+1684%2C+1505%2C+1691%2C+1495%2C+1624%2C+1470%2C+1746%2C+1676%2C+1629%2C+1511%2C+1748%2C+1677%2C+1484%2C+1485%2C+1580%2C+1763%2C+1744%2C+1481%2C+1520%2C+1696%2C+1492%2C+1508%2C+1727%2C+1711%2C+1579%2C+1489%2C+1706%2C+1757%2C+1487%2C+1583%2C+1477%2C+1701%2C+1518%2C+1526%2C+1654%2C+1694%2C+1491%2C+1478%2C+1681%2C+1714%2C+1668%2C+1619%2C+1581%2C+1479%2C+1483%2C+1500%2C+1729%2C+1584%2C+1740%2C+1602%2C+1646%2C+1656%2C+1471%2C+1469))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=1469');
+					var params={'url_servidor': unescape(url),
+								//'page_uri': ':verenlaces:newpctseries:',
+								'page_uri': ':vercontenido:newpctseries:getCapitulos:',
 								'uri_siguiente': ':vercontenido:newpctseries:tipo1:',
-								'subtitulo': true}
-					array_playlist=this.parsenewpcttipodefault(url,params);
+								'subtitulo': false,
+								'serie':true}
+					array_playlist= that.parsenewpct (params);
 					break;
 				case "tipobusqueda":
 					page.metadata.title = "NewPct Series HD - Buscar - "; 
@@ -2963,23 +2846,31 @@
 					break;
 				case "tipo1":
 					var params={'url_servidor': unescape(url),
-								'page_uri': ':verenlaces:newpctseries:',
+								'page_uri': ':vercontenido:newpctseries:getCapitulos:',
 								'uri_siguiente': ':vercontenido:newpctseries:tipo1:',
-								'subtitulo': true}
+								'subtitulo': false,
+								'serie':true}
 					array_playlist= that.parsenewpct (params);
 					break;
 				case "alfabeto":
 					page.metadata.title = "NewPct Series HD - Orden Alfabetico: " + ((url=='09')?'0-9': url.toUpperCase()); //en este caso url almacena la letra a buscar
-					var url_2=escape('http://www.newpct1.com/include.inc/ajax.php/orderCategory.php?type=letter&leter=' + url + '&sql=SELECT+DISTINCT+++%09%09%09%09%09%09torrentID%2C+++%09%09%09%09%09%09torrentCategoryID%2C+++%09%09%09%09%09%09torrentCategoryIDR%2C+++%09%09%09%09%09%09torrentImageID%2C+++%09%09%09%09%09%09torrentName%2C+++%09%09%09%09%09%09guid%2C+++%09%09%09%09%09%09torrentShortName%2C++%09%09%09%09%09%09torrentLanguage%2C++%09%09%09%09%09%09torrentSize%2C++%09%09%09%09%09%09calidad+as+calidad_%2C++%09%09%09%09%09%09torrentDescription%2C++%09%09%09%09%09%09torrentViews%2C++%09%09%09%09%09%09rating%2C++%09%09%09%09%09%09n_votos%2C++%09%09%09%09%09%09vistas_hoy%2C++%09%09%09%09%09%09vistas_ayer%2C++%09%09%09%09%09%09vistas_semana%2C++%09%09%09%09%09%09vistas_mes++%09%09%09%09++FROM+torrentsFiles+as+t+WHERE++(torrentStatus+%3D+1+OR+torrentStatus+%3D+2)++AND+(torrentCategoryID+IN+(1772%2C+1582%2C+1473%2C+1708%2C+1474%2C+1603%2C+1596%2C+1611%2C+1693%2C+1699%2C+1759%2C+1769%2C+1598%2C+1514%2C+1605%2C+1585%2C+1472%2C+1754%2C+1689%2C+1475%2C+1687%2C+1649%2C+1643%2C+1476%2C+1486%2C+1618%2C+1490%2C+1657%2C+1606%2C+1498%2C+1493%2C+1639%2C+1488%2C+1684%2C+1505%2C+1691%2C+1495%2C+1624%2C+1470%2C+1746%2C+1676%2C+1629%2C+1511%2C+1748%2C+1677%2C+1484%2C+1485%2C+1580%2C+1763%2C+1744%2C+1481%2C+1520%2C+1696%2C+1492%2C+1508%2C+1727%2C+1711%2C+1579%2C+1489%2C+1706%2C+1757%2C+1487%2C+1583%2C+1477%2C+1701%2C+1518%2C+1526%2C+1654%2C+1694%2C+1491%2C+1478%2C+1681%2C+1714%2C+1668%2C+1619%2C+1581%2C+1479%2C+1483%2C+1500%2C+1729%2C+1584%2C+1740%2C+1602%2C+1646%2C+1656%2C+1471%2C+1469))++AND+home_active+%3D+0++++ORDER+BY+torrentDateAdded++DESC++LIMIT+0%2C+50&pag=1&tot=&ban=3&cate=1469');
+					var url_2=escape('http://www.newpct1.com/series-hd/letter/' + url); 
 					var params={'url_servidor': unescape(url_2),
 								'page_uri': ':vercontenido:newpctseries:getCapitulos:',
-								'uri_siguiente': ':vercontenido:newpctseries:tipo2:', //el tipo2 no esta implementado por q no contemplamos paginacion aqui
-								'subtitulo': false}
+								'uri_siguiente': ':vercontenido:newpctseries:tipo1:', 
+								'subtitulo': false,
+								'serie':true}
 					array_playlist= that.parsenewpct (params);
 					break;
 				case "getCapitulos":
-					page.metadata.title = "NewPct Series HD";
-					array_playlist=parsenewpctseriesCapitulos(url);
+					page.metadata.title = "NewPct Series HD: Capitulos";
+					var params={'url_servidor': unescape(url),
+								'page_uri': ':verenlaces:newpctseries:',
+								//'page_uri': ':vercontenido:newpctseries:getCapitulos:',
+								'uri_siguiente': ':vercontenido:newpctseries:tipo1:',
+								'subtitulo': false,
+								'buscar':true}
+					array_playlist= that.parsenewpct (params);
 					break;
 				}
 		return array_playlist;
@@ -2987,77 +2878,7 @@
 
 
 
-		/************************************************************************************
-		/*	funcion getservidores: Devuelve un listado de enlaces al contenido en los 		*
-		/*							servidores soportados. 								    *
-		/*	Parametros: 																    *
-		/*		url: direccion de la que se debe extraer la lista.							*
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion.*
-		/*	Retorna: Array de servidores												    *
-		/************************************************************************************/
-		this.getservidores= function (url,page){
-			var array_servidores=[];
-			url=unescape(url);
-			var file_contents = get_urlsource(url);
-
-			var titulo;
-			var imagen;
-			var url_host;
-			var servidor;
-			var idioma;
-			var calidad;
-			var descripcion;
-
-			//check login
-			file_contents = this.checkloginnewpct(url, file_contents);
-			if(file_contents!=false)
-			{
-				//item_Actual
-				imagen = extraer_texto(file_contents ,'<div id="left_ficha">','" />');
-				imagen = extraer_texto(imagen,"src='","'"); 
-				
-				titulo = extraer_texto(file_contents ,'<title>','</title>');
-				titulo = titulo.substr(0,titulo.indexOf('Descarga'));
-				
-				descripcion = extraer_texto(file_contents ,' itemprop="description"  >',"</div>"); 
-
-				this.item_Actual=new Item_menu(titulo,imagen,null,url,descripcion);
-
-				file_contents = extraer_texto(file_contents,"<thead id='ver-online'>","</table>");
-				file_contents = extraer_texto(file_contents,'<tbody>','</tbody>');
-
-				var array_aux = extraer_html_array(file_contents,'<tr','</tr>');
-				file_contents = "";
-
-				var array_aux2=[];
-				for (var i=0;i<array_aux.length;i++)
-					{
-					if(array_aux[i].indexOf('<td>ver en 1 Link</td>')!='-1')
-						{
-						url_host = extraer_texto(array_aux[i],"<a href='","'");
-						array_aux2 = extraer_html_array(array_aux[i],'<td>','</td>');
-						servidor = extraer_texto(array_aux2[0],'<td>','</td>');	
-						idioma = extraer_texto(array_aux2[1],'<td>','</td>');
-						calidad = extraer_texto(array_aux2[2],'<td>','</td>');
-
-						var params={
-							"url_host" : url_host,
-							"servidor" : servidor,
-							"idioma" : idioma,
-							"calidad" : calidad
-						};
-
-						var objHost=HostFactory.createHost(servidor,params)
-						if (objHost)
-							{ 
-								array_servidores.push(objHost);
-							} 
-						}
-					}
-
-			}
-		return array_servidores;
-		}
+		
 
 		/************************************************************************************
 		/*	funcion getitem_alfabeto: Devuelve un listado de las subsecciones del canal. 	*
@@ -4854,8 +4675,7 @@
 		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
 		/*	Retorna: String que representa la url									       *
 		/**********************************************************************************/
-		this.geturl_host= function (url,page)
-		{
+		this.geturl_host= function (url,page)	{
 			var file_contents = get_urlsource(url);
 			var url_video= extraer_texto(file_contents ,'<div id="oculto" style="display:none">','</div>');
 			url_video= extraer_texto(url_video ,'href="','">');
@@ -5218,7 +5038,7 @@
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -5566,8 +5386,17 @@
 
 						if (typeof file_contents.headers['Location'] == 'undefined')
 							{
-							reason = "Usuario/Contraseña Incorrecta.";
-							continue;
+							if(file_contents.indexOf('Quota exceeded')>0)
+								{
+								showtime.notify('Quota Exceded Api.series.ly', 3);
+								error = 1;
+								break;									
+								}
+							else
+								{
+								reason = "Usuario/Contraseña Incorrecta.";
+								continue;
+								}
 							}
 						else
 							{
@@ -5658,7 +5487,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -5773,7 +5602,7 @@
 			}
 		
 			//if (array_menu.length >1) 
-				//array_menu.push(new Item_menu('Todo','views/img/folder.png',':vercontenido:listasm3u:todos:default')); 
+				//array_menu.push(new Item_menu('Todo','views/img/folder.png',':vercontenido:listasm3u:todos:default'));
 
 		return array_menu;
 		}
@@ -5957,7 +5786,7 @@
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
 		/************************************************************************************/
 		this.getmenu= function(page){
@@ -6581,6 +6410,7 @@
 		var pos_ini;
 		var pos_final;
 
+
 		pos_ini = texto.indexOf(cadena_inicial);
 		if (pos_ini==-1) return '';
 		texto = texto.substr(pos_ini+cadena_inicial.length);
@@ -6973,9 +6803,6 @@ function utf8_encode(argString) {
 	//Pagina Peliculas
 	plugin.addURI(PREFIX + ":peliculas", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var menu_peliculas=CanalFactory.getListadoCanales('peliculas').sortBy('titulo');
 
@@ -6988,6 +6815,19 @@ function utf8_encode(argString) {
 				icon: menu_peliculas[i].imagen});	
 		}	
 
+		/*page.reorderer = function(item, before) {
+                item.moveBefore(before);
+                var items = page.getItems();
+                for(var i = 0; i < items.length; i++) {
+                    if (!items[i].id) delete items[i];
+                }
+
+               // main_menu_order.order = showtime.JSONEncode(items);
+            };*/
+		
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Peliculas
@@ -6996,9 +6836,6 @@ function utf8_encode(argString) {
 	//Pagina Series
 	plugin.addURI(PREFIX + ":series", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var menu_series=CanalFactory.getListadoCanales('series').sortBy('titulo');
 
@@ -7011,6 +6848,9 @@ function utf8_encode(argString) {
 				icon: menu_series[i].imagen});	
 		}		
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Series
@@ -7019,9 +6859,6 @@ function utf8_encode(argString) {
 	//Pagina Anime
 	plugin.addURI(PREFIX + ":anime", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var menu_anime=CanalFactory.getListadoCanales('anime').sortBy('titulo');
 
@@ -7034,6 +6871,9 @@ function utf8_encode(argString) {
 				icon: menu_anime[i].imagen});	
 		}	
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Anime
@@ -7042,9 +6882,6 @@ function utf8_encode(argString) {
 	//Pagina TVonline
 	plugin.addURI(PREFIX + ":tvonline", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var menu_tvonline=CanalFactory.getListadoCanales('tvonline').sortBy('titulo');
 
@@ -7057,6 +6894,9 @@ function utf8_encode(argString) {
 				icon: menu_tvonline[i].imagen});	
 		}	
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina TVonline
@@ -7065,9 +6905,6 @@ function utf8_encode(argString) {
 	//Pagina Adultos
 	plugin.addURI(PREFIX + ":adultos", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var menu_adultos=CanalFactory.getListadoCanales('adultos').sortBy('titulo');
 
@@ -7080,6 +6917,9 @@ function utf8_encode(argString) {
 				icon: menu_adultos[i].imagen});	
 		}	
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Adultos
@@ -7088,9 +6928,6 @@ function utf8_encode(argString) {
 	//Pagina Historial
 	plugin.addURI(PREFIX + ":historial:(.*)", function(page, periodo) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var item;
 		if(periodo=="main")
@@ -7151,6 +6988,9 @@ function utf8_encode(argString) {
 				}
 			}
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Historial
@@ -7159,9 +6999,6 @@ function utf8_encode(argString) {
 	//Pagina Favoritos
 	plugin.addURI(PREFIX + ":favoritos", function(page) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var lista = objFavoritos.getItems();
 
@@ -7199,6 +7036,9 @@ function utf8_encode(argString) {
 				});
 			}
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Pagina Favoritos
@@ -7207,9 +7047,6 @@ function utf8_encode(argString) {
 	//Pagina Alfabeto
 	plugin.addURI(PREFIX + ":alfabeto:(.*):(.*)", function(page,servidor,caracter_numerico) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/list3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var item=objCanal.getitem_alfabeto(page);
 
@@ -7227,6 +7064,9 @@ function utf8_encode(argString) {
 			}
 
 		page.metadata.title = item.titulo;
+		page.metadata.glwview = plugin.path + "views/list3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});			
 	//Pagina Alfabeto
@@ -7235,9 +7075,6 @@ function utf8_encode(argString) {
 	//Pagina ver canales
 	plugin.addURI(PREFIX + ":vercanales:(.*)", function(page,canal) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/array3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var array_menu=[];
 
@@ -7255,6 +7092,9 @@ function utf8_encode(argString) {
 				icon: array_menu[i].imagen});
 			}
 
+		page.metadata.glwview = plugin.path + "views/array3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});		
 	//Pagina ver canales
@@ -7263,9 +7103,6 @@ function utf8_encode(argString) {
 	//Listado de items generico
 	plugin.addURI(PREFIX + ":vercontenido:(.*):(.*):(.*)", function(page, canal, tipo, url) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/list3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var array_playlist=[];
 
@@ -7275,42 +7112,38 @@ function utf8_encode(argString) {
 		array_playlist=objCanal.getplaylist(page, tipo, url);
 
 		//pintar el vercontenido se recorre el array y se pinta
-		if (array_playlist.length == 0)
-		{
-			showtime.notify('No se ha encontrado contenido en esta pagina',3);
-		}else{
-			var item;
-			for (var i=0;i<array_playlist.length;i++)
+		var item;
+		for (var i=0;i<array_playlist.length;i++)
 			{
-				item = page.appendItem(array_playlist[i].page_uri + escape(array_playlist[i].url), "directory", {
-					titlecover : new showtime.RichText(array_playlist[i].titulo),
-					title: new showtime.RichText(array_playlist[i].titulo),
-					icon: array_playlist[i].imagen
-					});
+			item = page.appendItem(array_playlist[i].page_uri + escape(array_playlist[i].url), "directory", {
+				titlecover : new showtime.RichText(array_playlist[i].titulo),
+				title: new showtime.RichText(array_playlist[i].titulo),
+				icon: array_playlist[i].imagen});
 
-				item.uri = array_playlist[i].page_uri + escape(array_playlist[i].url);
-				item.titulo = array_playlist[i].titulo;
-				item.imagen = array_playlist[i].imagen;
-				item.host = objCanal.name;
-				item.addOptSeparator("Peli-XR");
-				item.addOptAction("Agregar a Favoritos", "agregarafavoritos");
+			item.uri = array_playlist[i].page_uri + escape(array_playlist[i].url);
+			item.titulo = array_playlist[i].titulo;
+			item.imagen = array_playlist[i].imagen;
+			item.host = objCanal.name;
+			item.addOptSeparator("Peli-XR");
+			item.addOptAction("Agregar a Favoritos", "agregarafavoritos");
 
-				item.onEvent('agregarafavoritos', function (item)	
-					{ //Añadir pagina de enlaces
+			item.onEvent('agregarafavoritos', function (item)	
+				{ //Añadir pagina de enlaces
 
-						if (objFavoritos.addItem({
-								'titulo':this.titulo,
-								'imagen':this.imagen,
-								'uri': this.uri,
-								'host':this.host}))	
-									showtime.notify(this.titulo + ' agregado a favoritos',3);	
-					});
+					if (objFavoritos.addItem({
+							'titulo':this.titulo,
+							'imagen':this.imagen,
+							'uri': this.uri,
+							'host':this.host}))	
+								showtime.notify(this.titulo + ' agregado a favoritos',3);	
+				});
+
+
 			}
-		}
 
-		
-		
-		
+		page.metadata.glwview = plugin.path + "views/list3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});		
 	//Listado de items generico
@@ -7319,9 +7152,6 @@ function utf8_encode(argString) {
 	//Listado del mismo item x todo los servers disponibles
 	plugin.addURI(PREFIX + ":verenlaces:(.*):(.*)", function(page, canal, url) {
 		page.metadata.background = plugin.path + "views/img/background.png";
-		page.metadata.glwview = plugin.path + "views/list3.view";
-		page.type = "directory";
-		page.contents = "items";
 
 		var array_servidores=[];
 		var tipo_video;
@@ -7366,6 +7196,9 @@ function utf8_encode(argString) {
 		page.metadata.title = new showtime.RichText(objCanal.item_Actual.titulo);
 		page.metadata.icon = objCanal.item_Actual.imagen;
 		page.metadata.description = new showtime.RichText(objCanal.item_Actual.descripcion);
+		page.metadata.glwview = plugin.path + "views/list3.view";
+		page.type = "directory";
+		page.contents = "items";
 		page.loading = false;
 	});
 	//Listado del mismo item x todo los servers disponibles
@@ -7382,12 +7215,12 @@ function utf8_encode(argString) {
 		titulo = unescape(titulo);
 		imagen = unescape(imagen);
 		url_video = unescape(url_video);
-//showtime.print("url_video: " + url_video)	
+
 		if (objCanal == undefined) {objCanal=CanalFactory.createCanal(canal);}
 			else {if (objCanal.name != canal) objCanal=CanalFactory.createCanal(canal);}
 
 		var url_servidor=objCanal.geturl_host(url_video, page);
-//showtime.print("url_servidor: " + url_servidor)	
+
 		var objHost=HostFactory.createHost(host,{"servidor":host});	
 		var url_video2= objHost.geturl_video(url_servidor);
 
@@ -7443,11 +7276,9 @@ function utf8_encode(argString) {
 		
 		/*************************************************************************************
 		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal.              *
-
 		/*	Parametros:                                                                      *
-		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *													*
+		/*       page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*	Retorna: Array de objetos Item_menu									             *
-
 		/************************************************************************************/
 		this.getmenu= function(page){
 		//retorna el Menu
@@ -7462,7 +7293,7 @@ function utf8_encode(argString) {
 		/************************************************************************************
 		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
 		/*	Parametros: 																    *
-		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. *
 		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
 		/*		url: direccion de la que se debe extraer la lista.							*
 		/*	Retorna: Array de objetos Item_menu											    *
@@ -7526,15 +7357,31 @@ function utf8_encode(argString) {
 			var url_video;
 			var page_uri;
 			
+			titulo = 'Test Allmmyvideos';
+			url_video = 'http://allmyvideos.net/u1z2tdsv9rrw';
+			page_uri = ':vervideo:ztestchannel:allmyvideos:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
+
+			titulo = 'Test MovShare';
+			url_video = 'http://www.movshare.net/video/ac5287a58e716';
+			page_uri = ':vervideo:ztestchannel:movshare:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
+
+			titulo = 'Test Played.To';
+			url_video = 'http://played.to/0vpqv384hysv';
+			page_uri = ':vervideo:ztestchannel:played:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
+
 			titulo = 'Test Played.To';
 			url_video = 'http://played.to/0vpqv384hysv';
 			page_uri = ':vervideo:ztestchannel:played:test:views/img/folder.png:';
 			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
 			
-			titulo = 'Test Allmmyvideos';
-			url_video = 'http://allmyvideos.net/u1z2tdsv9rrw';
-			page_uri = ':vervideo:ztestchannel:allmyvideos:test:views/img/folder.png:';
-			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));			
+			titulo = 'Test Videomega';
+			url_video = 'http://videomega.tv/?ref=NKUVcRHTLf';
+			page_uri = ':vervideo:ztestchannel:videomega:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
+	
 			
 			titulo = 'Test Youtube No Cypher';
 			url_video = 'https://www.youtube.com/watch?v=mzhM6xNB8sQ';
@@ -7572,11 +7419,6 @@ function utf8_encode(argString) {
 			var imagen = 'views/img/folder.png';
 			var url_video;
 			var page_uri;
-			
-			/*titulo = 'Test Played.To';
-			url_video = 'http://played.to/0vpqv384hysv';
-			page_uri = ':vervideo:ztestchannel:played:test:views/img/folder.png:';
-			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));*/			
 			
 			var texto_busqueda=that.cuadroBuscar();
 			
