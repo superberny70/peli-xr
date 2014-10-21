@@ -1,4 +1,11 @@
 ###### Changelog
+### 0.10.4b:
+- Arreglado NewPctSeries
+- Arreglado Almyvideos (nuevo bug)
+- Sustituir Oraline.net por Oraline.com
+- Añadido Host vaughnlive (regex)
+- Actualizado canal 'Peliculas De Sebas'
+
 ### 0.10.3b:
 - Arreglado Almyvideos
 - El canal TVonline ha sido completamente remodelado. Ahora tenemos soportes para listas XML, JSON, PLX y M3U.
