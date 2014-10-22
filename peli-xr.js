@@ -4144,7 +4144,7 @@ showtime.print (url_video)
 	CanalFactory.registrarCanal("Xhamster",Xhamster); //Registrar la clase Xhamster
 
 	/************************************************************************************
-	/* var Oranline: Objeto que representa el canal Oranline.net en Peliculas	*
+	/* var Oranline: Objeto que representa el canal Oranline.com en Peliculas	*
 	/************************************************************************************/
 	var Oranline= function() {	
 		var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
@@ -4321,7 +4321,7 @@ showtime.print (url_video)
 		/*	Retorna:Un objetos Item_menu													*
 		/***********************************************************************************/
 		this.getitem_alfabeto= function(page) {
-			return (new Item_menu("Oranline.net - Orden Alfabetico","views/img/folder.png",':vercontenido:oranline:alfabeto:','http://www.oranline.com/?s=letra-'));
+			return (new Item_menu("Oranline.com - Orden Alfabetico","views/img/folder.png",':vercontenido:oranline:alfabeto:','http://www.oranline.com/?s=letra-'));
 		}
 
 
@@ -4369,7 +4369,7 @@ showtime.print (url_video)
 							if (i > -1){
 								//... de tipo alfabeto o busqueda
 								var stbuscado= params.url_servidor.substring(i);
-								params.url_servidor="http://www.oranline.net/page/2" + stbuscado;
+								params.url_servidor="http://www.oranline.com/page/2" + stbuscado;
 							}else{
 								//... de cualquier otro tipo
 								params.url_servidor=params.url_servidor + "page/2/";
