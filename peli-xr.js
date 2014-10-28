@@ -19,7 +19,7 @@
  
 (function(plugin) {
 
-// var version = '0.10.4b';
+// var version = '0.10.5b';
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -1003,6 +1003,41 @@
 	}
 	HostFactory.registrarHost("xvideos",Xvideos); //Registrar la clase Xvideos
 
+	/********************************************************************************	
+	/* var Pornhub: Objeto que representa el servidor Pornhub					*
+	/********************************************************************************/
+	var Pornhub= function(params) {
+	
+		//metodos publicos
+		
+		/************************************************************************
+		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
+		/*	Parametros: ninguno													*
+		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
+		/***********************************************************************/
+		this.esservidoradulto= function () {
+			return true;
+		}
+		
+		/****************************************************************************
+		/*	funcion geturl_video: Devuelve la url del video.						*
+		/*	Parametros:																*
+		/*		url_servidor: direccion de la que se debe extraer la url del video.	*	
+		/*	Retorna: String que representa la url del video o 'error'				*									*
+		/***************************************************************************/
+		this.geturl_video= function (url_servidor)
+		{
+			var file_contents = get_urlsource(url_servidor);
+			var url_video = extraer_texto(file_contents,"html5Config","},");
+			url_video = extraer_texto(url_video,"src		: '","'");
+	//showtime.print(url_video)		
+			return url_video;	
+		}
+		
+		
+	}
+	HostFactory.registrarHost("pornhub",Pornhub); //Registrar la clase Pornhub
+	
 	/********************************************************************************
 	/* var Youtube: Objeto que representa el servidor Youtube						*
 	/*		Hereda de Host															*
@@ -1222,7 +1257,7 @@ showtime.print (url_video)
 		
 		
 	}
-	HostFactory.registrarHost("ucaster",ucaster); //Registrar la clase ucaster
+	//HostFactory.registrarHost("ucaster",ucaster); //Registrar la clase ucaster
 	
 	/********************************************************************************	
 	/* var janjua: Objeto que representa el servidor ucaster					*
@@ -1260,19 +1295,20 @@ showtime.print (url_video)
 		//TODO: control de errores	
 			var objRegexs=showtime.JSONDecode(jsonRegexs)
 			
-showtime.print (objRegexs.array_regex[0])
+//showtime.print (objRegexs.array_regex[0])
 
 			var url_servidor= extraer_texto(objRegexs.array_regex[0],'<page>', '</page>');
-showtime.print (url_servidor)			
+//showtime.print (url_servidor)			
 			var referer= extraer_texto(objRegexs.array_regex[0],'<referer>', '</referer>');
-showtime.print (referer)
+//showtime.print (referer)
 			var expres= new RegExp(extraer_texto(objRegexs.array_regex[0],'<expres>', '</expres>'));
-showtime.print (expres)
+//showtime.print (expres)
 			var file_contents = get_urlsourcereferer(url_servidor, referer);
+			//var file_contents = get_urlsource(url_servidor);
 			var rtmip= expres.exec(file_contents)[0];
 		
 			rtmip= rtmip.substr(9);
-showtime.print (rtmip)				
+//showtime.print (rtmip)				
 			url_video= objRegexs.link;
 			url_video= url_video.replace ('$doregex[rtmpip]',rtmip);
 showtime.print (url_video)
@@ -1281,7 +1317,84 @@ showtime.print (url_video)
 		
 		
 	}
-	HostFactory.registrarHost("janjua",janjua); //Registrar la clase janjua
+	//HostFactory.registrarHost("janjua",janjua); //Registrar la clase janjua
+	
+	/********************************************************************************	
+	/* var vaughnlive: Objeto que representa el servidor vaughnlive					*
+	/********************************************************************************/
+	var vaughnlive= function(params) {//ha cambiado
+		//metodos publicos
+		
+		/************************************************************************
+		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
+		/*	Parametros: ninguno													*
+		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
+		/***********************************************************************/
+		this.esservidoradulto= function () {
+			return false;
+		}
+		
+		/****************************************************************************************************************
+		/*	funcion geturl_video: Devuelve la url del video.															*
+		/*	Parametros:																									*
+		/*		jsonRegexs: String JSON	que representa las REGEXs necesarias para obtener la url del video en este host *
+		/*	Retorna: String que representa la url del video o 'error'													*
+		/***************************************************************************************************************/
+		this.geturl_video= function (jsonRegexs)
+		{//TODO: control de errores	
+			var url_video ='error';
+			var file_contents;
+//showtime.print(jsonRegexs)			
+			var objRegexs=showtime.JSONDecode(jsonRegexs)
+			var name;
+			var array_objRegex=[];
+			var expres;
+						
+			for (var i=0;i<objRegexs.array_regex.length;i++)
+				{
+					name= extraer_texto(objRegexs.array_regex[i],'<name>', '</name>');
+					
+					array_objRegex[name]={
+						'page': extraer_texto(objRegexs.array_regex[i],'<page>', '</page>'),
+						'referer' : extraer_texto(objRegexs.array_regex[i],'<referer>', '</referer>'),
+						'strExpres' : extraer_texto(objRegexs.array_regex[i],'<expres>', '<')}	
+				}		
+			
+			//gettime
+			var time = +new Date;
+			var gettime= (parseInt(Math.round(time*1000)));
+	
+			//getUrl
+			array_objRegex['getUrl'].page= array_objRegex['getUrl'].page.replace(/\$doregex\[gettime\]/g,gettime);
+			file_contents = get_urlsource(array_objRegex['getUrl'].page);
+			expres= new RegExp(array_objRegex['getUrl'].strExpres);
+			var getUrl= expres.exec(file_contents)[0];
+				
+			//getserver
+			expres= new RegExp(array_objRegex['getserver'].strExpres);
+			var getserver= expres.exec(getUrl)[0];
+			getserver=getserver.substr(0,getserver.length-1);
+			
+			objRegexs.link= objRegexs.link.replace(/\$doregex\[getserver\]/g,getserver);
+		
+			//getencoded
+			expres= new RegExp(array_objRegex['getencoded'].strExpres);
+			var getencoded= expres.exec(getUrl)[0].split(':');
+			
+			//getdecoded		
+			var getdecoded='';
+			for (i=0;i<getencoded.length;i++){	
+				getdecoded += String.fromCharCode(parseInt(getencoded[i].replace(/;?0m0/g,""))/84/5);}		
+			objRegexs.link= objRegexs.link.replace(/\$doregex\[getdecoded\]/g,getdecoded);
+			
+			url_video= objRegexs.link;
+		
+			return url_video;	
+		}
+		
+		
+	}
+	//HostFactory.registrarHost("vaughnlive",vaughnlive); //Registrar la clase vaughnlive
 	
 	/********************************************************************************	
 	/* var freetvcast: Objeto que representa el servidor freetvcast					*
@@ -1356,7 +1469,7 @@ showtime.print (url_video)
 		
 		
 	}
-	HostFactory.registrarHost("freetvcast",freetvcast); //Registrar la clase freetvcast
+	//HostFactory.registrarHost("freetvcast",freetvcast); //Registrar la clase freetvcast
 	
 	/********************************************************************************	
 	/* var direct2watch: Objeto que representa el servidor direct2watch					*
@@ -1380,26 +1493,56 @@ showtime.print (url_video)
 		/*	Retorna: String que representa la url del video o 'error'													*
 		/***************************************************************************************************************/
 		this.geturl_video= function (jsonRegexs)
-		{//TODO: control de errores	
+		{
 			var url_video ='error';
 			var file_contents;
-			var objRegexs=showtime.JSONDecode(jsonRegexs)
+			var objRegexs;
 			var name;
 			var array_objRegex=[];
 			var expres;
-			
-			for (var i=0;i<objRegexs.array_regex.length;i++)
-				{
-					name= extraer_texto(objRegexs.array_regex[i],'<name>', '</name>');
-					
-					array_objRegex[name]={
-						'page': extraer_texto(objRegexs.array_regex[i],'<page>', '</page>'),
-						'referer' : extraer_texto(objRegexs.array_regex[i],'<referer>', '</referer>'),
-						'strExpres' : extraer_texto(objRegexs.array_regex[i],'<expres>', '</expres>')}
-				}		
+//showtime.print(jsonRegexs)
+			if (true) 	
+			{ //Se incluyen Regex
+//$doregex[get-proper-rtmp] app=direct2watch/_definst_/?xs=$doregex[get-app] playpath=$doregex[get-path] token=$doregex[get-token] swfUrl=http://www.direct2watch.com/player/player_embed_iguide.swf pageUrl=http://www.direct2watch.com/embedplayer.php?width=653&amp;height=400&amp;channel=10&amp;autoplay=true live=1 swfVfy=true timeout=10
+				objRegexs=showtime.JSONDecode(jsonRegexs)
+				for (var i=0;i<objRegexs.array_regex.length;i++)
+					{
+						name= extraer_texto(objRegexs.array_regex[i],'<name>', '</name>');
 						
+						array_objRegex[name]={
+							'page': extraer_texto(objRegexs.array_regex[i],'<page>', '</page>'),
+							'referer' : extraer_texto(objRegexs.array_regex[i],'<referer>', '</referer>'),
+							'strExpres' : extraer_texto(objRegexs.array_regex[i],'<expres>', '</expres>')}
+					}		
+			} else { //No se incluyen Regex, intentamos crearlos a partir de la url (objRegexs.link)
+//rtmp://watch1.direct2watch.com:1935/direct2watch/_definst_/?xs=_we_eWgwdTVrdTYzZDI5YnpmfDE0MTM5MjIzMzJ8ODcuMjIwLjE4Mi4yNDl8NTQ0NmIwMGMxZDRhN3wxMGQ1ZjZiYmJjZjJkYjIwZjYxY2U5YzBjYmE0Yzg1ZGRlY2IwNzNm playpath=yh0u5ku63d29bzf swfUrl=http://www.direct2watch.com/player/player_embed_iguide.swf live=1 pageUrl=http://www.direct2watch.com/embedplayer.php?width=653&height=410&channel=21&autoplay=true referer=http://vipracing.tv/
+				//var page=extraer_texto(objRegexs.link,'pageUrl=',' ');
+				//var referer=extraer_texto(objRegexs.link + ' ','referer=',' ');
+				
+				array_objRegex['get-rtmp']={
+					'page': extraer_texto(objRegexs.link,'pageUrl=',' '),
+					'referer' : extraer_texto(objRegexs.link + ' ','referer=',' '),
+					'strExpres' : "'streamer': " + '"([^\?]*)' }
+				
+				array_objRegex['get-app']= array_objRegex['get-rtmp'];
+				array_objRegex['get-app'].strExpres= '\?xs=(.*)"';
+				
+				array_objRegex['get-path']= array_objRegex['get-rtmp'];
+				array_objRegex['get-path'].strExpres= "'file': '([^.]*)";
+				
+				array_objRegex['GetTokenPage']= array_objRegex['get-rtmp'];
+				array_objRegex['GetTokenPage'].strExpres= '\$.getJSON\("([^"]*)';
+				array_objRegex['GetTokenPage'].referer="";
+				
+				array_objRegex['get-token']= array_objRegex['get-rtmp'];
+				array_objRegex['get-token'].strExpres= 'token":"([^"]*)';
+				
+				objRegexs.link="$doregex[get-proper-rtmp] app=direct2watch/_definst_/?xs=$doregex[get-app] playpath=$doregex[get-path] token=$doregex[get-token] swfUrl=http://www.direct2watch.com/player/player_embed_iguide.swf pageUrl=" + array_objRegex['get-rtmp'].page +" live=1 swfVfy=true timeout=10"
+			}
+			
 			//get-rtmp
 			file_contents = get_urlsourcereferer(array_objRegex['get-rtmp'].page, array_objRegex['get-rtmp'].referer);	
+	showtime.print(file_contents)		
 			expres= new RegExp(array_objRegex['get-rtmp'].strExpres);
 			var get_rtmp= expres.exec(file_contents)[0].substr(13);
 		
@@ -1408,18 +1551,20 @@ showtime.print (url_video)
 			objRegexs.link= objRegexs.link.replace('$doregex[get-proper-rtmp]', get_proper_rtmp);
 		
 			//get-app
-			file_contents = get_urlsourcereferer(array_objRegex['get-app'].page, array_objRegex['get-app'].referer);
+			if ((array_objRegex['get-app'].page != array_objRegex['get-rtmp'].page) || (array_objRegex['get-app'].referer != array_objRegex['get-rtmp'].referer))
+				file_contents = get_urlsourcereferer(array_objRegex['get-app'].page, array_objRegex['get-app'].referer);
 			expres= new RegExp(array_objRegex['get-app'].strExpres);
 			var get_app= expres.exec(file_contents)[0];
 			get_app=get_app.substr(4,get_app.length-5);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-app]',get_app);
-	//showtime.print(get_app)	
+		
 			//get-path
-			file_contents = get_urlsourcereferer(array_objRegex['get-path'].page, array_objRegex['get-path'].referer);
+			array_objRegex['get-path'].page= array_objRegex['get-path'].page.replace(/&amp;/ig,'&');
+			if ((array_objRegex['get-app'].page != array_objRegex['get-path'].page) || (array_objRegex['get-app'].referer != array_objRegex['get-path'].referer))
+				file_contents = get_urlsourcereferer(array_objRegex['get-path'].page, array_objRegex['get-path'].referer);
 			expres= new RegExp(array_objRegex['get-path'].strExpres);
 			var get_path= expres.exec(file_contents)[0].substr(9);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-path]',get_path);
-	showtime.print(get_path)		
 			
 			//GetTokenPage
 			file_contents = get_urlsource(array_objRegex['GetTokenPage'].page);
@@ -1432,96 +1577,13 @@ showtime.print (url_video)
 			var get_token= expres.exec(file_contents)[0].substr(8);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-token]',get_token);
 						
-			
-			url_video= objRegexs.link;
-	showtime.print (url_video)		
-	//<link>$doregex[get-proper-rtmp] app=direct2watch/_definst_/?xs=$doregex[get-app] playpath=$doregex[get-path] token=$doregex[get-token] swfUrl=http://www.direct2watch.com/player/player_embed_iguide.swf pageUrl=http://www.direct2watch.com/embedplayer.php?width=653&amp;height=410&amp;channel=9&amp;autoplay=true live=1 swfVfy=true timeout=10</link>
-			
-	//rtmp://watch1.direct2watch.com:1935/direct2watch/_definst_/ app=direct2watch/_definst_/?xs=_we_cjRtczVqYzI5YTNodGhlfDE0MTI3MjMxOTh8MTg4Ljc3LjE4MS43Nnw1NDM0NjNlZWNmODQxfDYzOThkYTY0MDljNDgxZmZhNWZmMDExNGZiMGVmMTYyMjNiNmU3NmY. playpath=r4ms5jc29a3hthe token=O44f2f4d7089004ab0645fc4de83c2f0 swfUrl=http://www.direct2watch.com/player/player_embed_iguide.swf pageUrl=http://www.direct2watch.com/embedplayer.php?width=653&height=410&channel=9&autoplay=true live=1 swfVfy=true timeout=10
-
+			url_video= objRegexs.link.replace(/&amp;/ig,'&');
 			return url_video;	
 		}
 		
 		
 	}
-	HostFactory.registrarHost("direct2watch",direct2watch); //Registrar la clase direct2watch
-	
-	/********************************************************************************	
-	/* var vaughnlive: Objeto que representa el servidor vaughnlive					*
-	/********************************************************************************/
-	var vaughnlive= function(params) {
-		//metodos publicos
-		
-		/************************************************************************
-		/*	funcion esservidoradulto: Indica si es un servidor de adultos o no. *
-		/*	Parametros: ninguno													*
-		/*	Retorna: true si es un servidor de adultos, false si no lo es.		*
-		/***********************************************************************/
-		this.esservidoradulto= function () {
-			return false;
-		}
-		
-		/****************************************************************************************************************
-		/*	funcion geturl_video: Devuelve la url del video.															*
-		/*	Parametros:																									*
-		/*		jsonRegexs: String JSON	que representa las REGEXs necesarias para obtener la url del video en este host *
-		/*	Retorna: String que representa la url del video o 'error'													*
-		/***************************************************************************************************************/
-		this.geturl_video= function (jsonRegexs)
-		{//TODO: control de errores	
-			var url_video ='error';
-			var file_contents;
-			
-			var objRegexs=showtime.JSONDecode(jsonRegexs)
-			var name;
-			var array_objRegex=[];
-			var expres;
-						
-			for (var i=0;i<objRegexs.array_regex.length;i++)
-				{
-					name= extraer_texto(objRegexs.array_regex[i],'<name>', '</name>');
-					
-					array_objRegex[name]={
-						'page': extraer_texto(objRegexs.array_regex[i],'<page>', '</page>'),
-						'referer' : extraer_texto(objRegexs.array_regex[i],'<referer>', '</referer>'),
-						'strExpres' : extraer_texto(objRegexs.array_regex[i],'<expres>', '<')}	
-				}		
-			
-			//gettime
-			var time = +new Date;
-			var gettime= (parseInt(Math.round(time*1000)));
-	
-			//getUrl
-			array_objRegex['getUrl'].page= array_objRegex['getUrl'].page.replace(/\$doregex\[gettime\]/g,gettime);
-			file_contents = get_urlsource(array_objRegex['getUrl'].page);
-			expres= new RegExp(array_objRegex['getUrl'].strExpres);
-			var getUrl= expres.exec(file_contents)[0];
-				
-			//getserver
-			expres= new RegExp(array_objRegex['getserver'].strExpres);
-			var getserver= expres.exec(getUrl)[0];
-			getserver=getserver.substr(0,getserver.length-1);
-			
-			objRegexs.link= objRegexs.link.replace(/\$doregex\[getserver\]/g,getserver);
-		
-			//getencoded
-			expres= new RegExp(array_objRegex['getencoded'].strExpres);
-			var getencoded= expres.exec(getUrl)[0].split(':');
-			
-			//getdecoded		
-			var getdecoded='';
-			for (i=0;i<getencoded.length;i++){	
-				getdecoded += String.fromCharCode(parseInt(getencoded[i].replace(/;?0m0/g,""))/84/5);}		
-			objRegexs.link= objRegexs.link.replace(/\$doregex\[getdecoded\]/g,getdecoded);
-			
-			url_video= objRegexs.link;
-		
-			return url_video;	
-		}
-		
-		
-	}
-	HostFactory.registrarHost("vaughnlive",vaughnlive); //Registrar la clase vaughnlive
+	//HostFactory.registrarHost("direct2watch",direct2watch); //Registrar la clase direct2watch
 	
 	/********************************************************************************	
 	/* var stream9: Objeto que representa el servidor 9stream					*
@@ -1568,40 +1630,37 @@ showtime.print (url_video)
 			expres= new RegExp(array_objRegex['get-ip'].strExpres);
 			var get_ip= expres.exec(file_contents)[0].substr(9);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-ip]',get_ip);
-showtime.print(get_ip)		
 					
 			//get-xs
-			file_contents = get_urlsourcereferer(array_objRegex['get-xs'].page, array_objRegex['get-xs'].referer);
+			if ((array_objRegex['get-ip'].page != array_objRegex['get-xs'].page) || (array_objRegex['get-ip'].referer != array_objRegex['get-xs'].referer))
+				file_contents = get_urlsourcereferer(array_objRegex['get-xs'].page, array_objRegex['get-xs'].referer);
 			expres= new RegExp(array_objRegex['get-xs'].strExpres);
 			var get_xs= expres.exec(file_contents)[0];
 			get_xs=get_xs.substr(3,get_xs.length-4);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-xs]',get_xs);
-showtime.print(get_xs)	
 			
 			//tok
-			file_contents = get_urlsourcereferer(array_objRegex['tok'].page, array_objRegex['tok'].referer);
+			if ((array_objRegex['tok'].page != array_objRegex['get-xs'].page) || (array_objRegex['tok'].referer != array_objRegex['get-xs'].referer))
+				file_contents = get_urlsourcereferer(array_objRegex['tok'].page, array_objRegex['tok'].referer);
 			expres= new RegExp(array_objRegex['tok'].strExpres);
 			var tok= expres.exec(file_contents)[0].substr(8);
 			objRegexs.link= objRegexs.link.replace('$doregex[tok]',tok);
-showtime.print(tok)		
 	
 			//get-path
+			array_objRegex['get-path'].page= array_objRegex['get-path'].page.replace(/&amp;/ig,'&');
+			//if ((array_objRegex['tok'].page != array_objRegex['get-xs'].page) || (array_objRegex['tok'].referer != array_objRegex['get-xs'].referer))
 			file_contents = get_urlsourcereferer(array_objRegex['get-path'].page, array_objRegex['get-path'].referer);
 			expres= new RegExp(array_objRegex['get-path'].strExpres);
 			var get_path= expres.exec(file_contents)[0].substr(9);
 			objRegexs.link= objRegexs.link.replace('$doregex[get-path]',get_path);
-showtime.print(get_path)		
-				
-			url_video= objRegexs.link;
-showtime.print (url_video)		
-	
-			//<link>rtmp://$doregex[get-ip]:1935/verdirectotvedge/_definst_/ app=verdirectotvedge/_definst_/?xs=$doregex[get-xs] token=$doregex[tok] flashver=WIN%2011,9,900,117 playpath=$doregex[get-path] swfUrl=http://www.9stream.com/player/player_orig_XXXXX.swf pageUrl=http://www.9stream.com/embedplayer_2.php?width=650&amp;height=400&amp;channel=108&amp;autoplay=true live=1 swfVfy=1 timeout=10</link>
-			
+
+			url_video= objRegexs.link.replace(/&amp;/ig,'&');
+		
 			return url_video;	
 		}
 		
 	}
-	HostFactory.registrarHost("9stream",stream9); //Registrar la clase 9stream
+	//HostFactory.registrarHost("9stream",stream9); //Registrar la clase 9stream
 	
 //servidores de video
 //
@@ -4369,7 +4428,7 @@ showtime.print (url_video)
 							if (i > -1){
 								//... de tipo alfabeto o busqueda
 								var stbuscado= params.url_servidor.substring(i);
-								params.url_servidor="http://www.oranline.com/page/2" + stbuscado;
+								params.url_servidor="http://www.Oranline.com/page/2" + stbuscado;
 							}else{
 								//... de cualquier otro tipo
 								params.url_servidor=params.url_servidor + "page/2/";
@@ -5869,7 +5928,7 @@ showtime.print (url_video)
 			new Item_menu('ADRYAN LIST','http://freehddesktopwallpaper.info/wp-content/uploads/2013/06/Creative-House-Television-Design-HD-wallpaper.jpg',':vercontenido:ListasTV:listaXml/#/ADRYAN LIST:' + escape('https://dl.dropboxusercontent.com/u/32066381/list.xml'), 'https://dl.dropboxusercontent.com/u/32066381/list.xml'),
 			
 			new Item_menu('IPTV Latinos','img/latinos.png',':vercontenido:ListasTV:listaM3u/#/IPTV Latinos M3U:' + escape('https://dl.dropbox.com/s/tw05v9ojbssuca1/Latinos.m3u'), 'https://dl.dropbox.com/s/tw05v9ojbssuca1/Latinos.m3u'),
-			new Item_menu('Seleccion DMO','https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRF-7WmS623oUX4Ku4KgUuft8O4eTTLKlv-eKcESJHywLV9VaLIiQ',':vercontenido:ListasTV:listaM3u/#/Seleccion DMO:' + escape('http://dstats.net/fwd/8r3nu'), 'http://dstats.net/fwd/8r3nu'),
+			new Item_menu('Seleccion DMO','https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRF-7WmS623oUX4Ku4KgUuft8O4eTTLKlv-eKcESJHywLV9VaLIiQ',':vercontenido:ListasTV:listaM3u/#/Seleccion DMO:' + escape('http://dstats.net/fwd/8394n'), 'http://dstats.net/fwd/8394n'),
 			new Item_menu('TDT Esp by Reig','https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcStPvfNuHz3EogbBw-zSFMeJjR2iDVoOdcG09R9g6JiEXSlp8iFgQ',':vercontenido:ListasTV:listaM3u/#/TDT Esp by Reig:' + escape('http://pastebin.com/raw.php?i=U2QC4xXi'), 'http://pastebin.com/raw.php?i=U2QC4xXi'),
 			new Item_menu('Brasil SimpleTV','https://lh6.ggpht.com/ecimWVppJthW1fsFDq9R8QyGV46xRx4ErEfss5AeN8WvsT4RZnkC7mwqwCsSyEzN-_4=w300',':vercontenido:ListasTV:listaM3u/#/Brasil SimpleTV:' + escape('http://simpletvbrasil.tv/cliente/pack/playlist.m3u'), 'http://simpletvbrasil.tv/cliente/pack/playlist.m3u'),
 			new Item_menu('Gatica Sport','http://im70.gulfup.com/54nkcO.png',':vercontenido:ListasTV:listaM3u/#/Gatica Sport:' + escape('http://pastebin.com/raw.php?i=Z2esSdMi'), 'http://pastebin.com/raw.php?i=Z2esSdMi'),
@@ -5968,14 +6027,13 @@ showtime.print (url_video)
 		/*      page: referencia a la pagina de showtime desde donde se llama a la funcion.*	
 		/*	Retorna: String que representa la url o los campos regex si existen		       *
 		/**********************************************************************************/
-		this.geturl_host= function (url,page){
+		this.geturl_host= function (url,page){		
 			if (array_regex[page.metadata.tag])
 			{
 				var objRegexs= {
 					"link" : url,
 					"array_regex" : array_regex[page.metadata.tag]
 					};
-//showtime.print (showtime.JSONEncode(objRegexs))
 				return showtime.JSONEncode(objRegexs)
 			} 
 			return url;		
@@ -5999,7 +6057,7 @@ showtime.print (url_video)
 		this.pass_control_parental =function(name)
 		{
 			var res=true;
-			if (name.search(/(\+18|XX|porno)/i) != -1)
+			if (name.search(/(\+18|XX|porno|18\+)/i) != -1)
 			{
 				res=false;
 				if(parental_mode == false)
@@ -6052,8 +6110,13 @@ showtime.print (url_video)
 								if (url_plx.startsWith('http')) {
 									servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
 									servidor= servidor.split('.')[0];
+									name += " [" + servidor + "]";
 									if (!HostFactory.esHost(servidor)) servidor='HostDirecto';
+								}else if (url_plx.startsWith('rtmp')){
+									name += " [RTMP]";
+									servidor='HostDirecto';
 								}else{
+									name += " [???]";
 									servidor='HostDirecto';
 								}
 								
@@ -6112,46 +6175,70 @@ showtime.print (url_video)
 			l=array_aux.length;
 			for (var i=0;i<l;i++)
 			{
-				url_video = extraer_texto(array_aux[i], '<link>', '</link>');
+				url_video = extraer_texto(array_aux[i], '<link>', '</link>').replace(/&amp;/ig,'&');
 				titulo = that.formatText(extraer_texto(array_aux[i], '<title>', '</title>'));
 				
-				if (url_video.length !=0 &&titulo.length !=0 && titulo.substring(0,5).search(/off/i) == -1 && titulo.substring(-5).search(/off/i) == -1 && that.pass_control_parental (titulo))
+				if (url_video.length !=0 && titulo.length !=0 && that.pass_control_parental (titulo) && titulo.substring(0,5).search(/off/i) == -1 && titulo.substring(-5).search(/off/i) == -1 )
 				{
 					//	Si existe un link y un titulo ...
 					// ...y el titulo no comienza, ni termina por OFF y supera el control_parental ...
 					imagen = extraer_texto(array_aux[i], '<thumbnail>', '</thumbnail>');
 					if (imagen == "") {imagen = imagen_default};
-							
+					
+					servidor= extraer_texto(url_video, 'pageUrl=',' ');
+					
 					var array_aux2=extraer_html_array(array_aux[i],'<regex>', '</regex>');		
 					if (array_aux2.length > 0)
 					{	//Añadir <regex> si existen y el servidor es soportado
-						servidor= extraer_texto(url_video, 'pageUrl=',' ');
-						if (servidor== '') {
+						
+						if (servidor== '') { //Posibles servidores 
 							if (array_aux[i].indexOf('vaughnlive') >= 0) servidor= 'vaughnlive';
-						}else{
+						}else{ //Servidor identificado
 							servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
 							servidor= servidor.split('.')[0];
 						}
 
 						if (!HostFactory.esHost(servidor)) continue; //siguiente <item>...</item>
+						titulo += " [" + servidor + "]";
+						if (array_regex[titulo]) continue; //siguiente <item>...</item>, solo añadimos un canal con ("titulo [servidor]")
+						array_regex[titulo]= array_aux2;
 						
-						if (array_regex[titulo + "__" + servidor]) continue; //siguiente <item>...</item>, solo añadimos un canal con (titulo + "__" + servidor)
-						array_regex[titulo + "__" + servidor]= array_aux2;
 					}else { //No existen <regex>
-						if ((url_video.startsWith("rtmp")) || (url_video.search(/^(http(:|s:)).+\.mp4\?.+/i)!=-1) || (url_video.search(/^(http(:|s:)).+(\.m3u8$|\.m3u8\?.+)/i)!=-1))
-						{	//Si...
-							// rtmp...; http....m3u8; http....m3u8?xxxx; http...mp4?xxxx
-							// añadir como HostDirecto
-							servidor= 'HostDirecto';
-						}else if (url_video.startsWith('http')) 
-						{	//... En otro caso si  es http o https ...
-							// añadir si el servidor es soportado
-							servidor= url_video.replace(/https?:\/\/www\.|https?:\/\//,''); 
-							servidor= servidor.split('.')[0];
-							if (!HostFactory.esHost(servidor)) continue; //siguiente <item>...</item>
+						if (url_video.startsWith("rtmp"))
+						{	//Si... empieza por rtmp (y no existen regex)...
+							if (servidor== '') {
+								// ... añadir como HostDirecto 
+								servidor= 'RTMP';
+							}else{ //Servidor identificado
+								servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
+								servidor= servidor.split('.')[0];
+							}
+						}else if (url_video.startsWith('http')) {
+							//... En otro caso si  empieza por http o https ...
+							if (url_video.search(/^(http(:|s:)).+\.mp4\?.+/i)!=-1)
+							{	//... y contiene un .mp4: añadir como MP4 (HostDirecto) ...
+								servidor= 'MP4';
+							}else if (url_video.search(/^(http(:|s:)).+(\.m3u8$|\.m3u8\?.+)/i)!=-1)
+							{	//... si contiene un .m3u8: añadir como M3U8 (HostDirecto), ...
+								servidor= 'M3U8';
+							}else {
+								// ... y si no contiene ninguno de los anteriores ...								
+								// ... añadir solo si el servidor es soportado.
+								servidor= url_video.replace(/https?:\/\/www\.|https?:\/\//,''); 
+								servidor= servidor.split('.')[0];
+								//if (servidor == 'hop') servidor= 'HostDirecto';
+								if (!HostFactory.esHost(servidor)) {
+									//showtime.print(servidor)
+									continue; //siguiente <item>...</item>
+								}
+							}
 						}else continue; //siguiente <item>...</item>
+						
+						titulo += " [" + servidor + "]";
+						if (!HostFactory.esHost(servidor)) servidor= 'HostDirecto';
 					}
-	//if (servidor=='9stream'){
+	//if (servidor=='sportztv')
+					//{
 					page_uri = ':vervideo:ListasTV:' + servidor + ':' + escape(titulo) + ':' + escape(imagen) + ':' ;						
 					array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));					
 					//}
@@ -6180,56 +6267,72 @@ showtime.print (url_video)
 						var url_video;	
 						var page_uri;
 						var aux;
-						var servidor='HostDirecto';
+						var servidor;
 						
 						// Url
 						aux = lineas[i+1].trim();
-						if ((aux.search(/^(http(:|s:)).+\.mp4\?.+/i)!=-1) || (aux.search(/^(http(:|s:)).+(\.m3u8$|\.m3u8\?.+)/i)!=-1))	{ //http....m3u8; http....m3u8?xxxx; http...mp4?xxxx
-							url_video= aux;
-							servidor='HostDirecto';
-						} else if (aux.startsWith('rtmp://$OPT')){
-							url_video= aux.substr(aux.indexOf('rtmp-raw=') + 9);
-							servidor='HostDirecto';
-						} else if (aux.startsWith('rtmp') ){
-							url_video= aux;
-							servidor='HostDirecto';
-						} else if (aux.startsWith('http')) {							
-									servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
-									servidor= servidor.split('.')[0];
-									if (!HostFactory.esHost(servidor)) continue;
+						aux= aux.replace(/^rtmp:\/\/$OPT:rtmp-raw=rtmp/i,'rtmp');
+						url_video= aux;
+						if (aux.startsWith('rtmp') ){
+							//Si... empieza por rtmp ...
+							servidor= extraer_texto(url_video, 'pageUrl=',' ');
+							if (servidor== '') {
+								// ... añadir como HostDirecto 
+								servidor= 'RTMP';
+							}else{ //Servidor identificado
+								servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
+								servidor= servidor.split('.')[0];
+//	showtime.print(servidor)
+							}
+						
+						} else if (aux.startsWith('http')) {
+							//...Si  empieza por http (o https) ...
+							if (aux.search(/^(http(:|s:)).+\.mp4\?.+/i)!=-1)	{ 
+								//... y contiene un .mp4: añadir como MP4 (HostDirecto) ...
+								servidor='MP4';
+							}else if  (aux.search(/^(http(:|s:)).+(\.m3u8$|\.m3u8\?.+)/i)!=-1) {
+								//... o si contiene un .m3u8: añadir como M3U8 (HostDirecto) ...
+								servidor='M3U8';							
+							}else{	
+								// ... y si no contiene ninguno de los anteriores ...								
+								// ... añadir solo si el servidor es soportado.
+								servidor= servidor.replace(/http:\/\/www\.|http:\/\//,''); 
+								servidor= servidor.split('.')[0];
+								if (!HostFactory.esHost(servidor)) continue;
+							}
+							
+						} else if (aux.startsWith('m3u')) {
+							// Enlace a otra lista
+							url_video= aux.replace(/^m3u:/,'');
+							servidor='Lista M3U';
 						} else continue;
 						
-						
-						// Titulo y categoria
-						categoria= extraer_texto(lineas[i],'group-title="','"');
-							// si existe group-title=  detras de la ultima coma esta el titulo
+				
+						// Titulo 
 						aux= lineas[i].split(',');
-						titulo= aux[aux.length-1];
-							// si no, detras de la ultima coma puede estar la categoria y el titulo o solo el titulo
-						if (categoria ==""){
-							aux= titulo.split(':');
-							if (aux.length >1 ){
-								categoria= aux[0];
-								titulo= aux[1];
-							} else {
-								categoria="Desconocida";
-							}		
-						}
-												
-						//categoria= categoria.trim();
-						titulo= that.formatText(titulo);
+						titulo= that.formatText(aux[1]);
 								
 						// Imagen
 						imagen= extraer_texto(lineas[i],'tvg-logo="','"');
 						if (imagen.startsWith("..") || imagen=="")
 							imagen= plugin.path + "img/tvonline.png";
-						
-						
+												
 						// Añadir item
 						if (titulo != "" && url_video != "" && that.pass_control_parental (titulo) )
 						{
-							page_uri = ':vervideo:ListasTV:' + servidor +':' + escape(titulo) + ':' + escape(imagen) + ':' ;						
-							array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));						
+							titulo += " [" + servidor +"]";	
+							if (servidor=='Lista M3U'){
+								page_uri = ':vercontenido:ListasTV:listaM3u/#/' + titulo + ':' //+ escape(url_video) + ':' ;
+							}else{
+								if (!HostFactory.esHost(servidor)) servidor= 'HostDirecto';
+								page_uri = ':vervideo:ListasTV:' + servidor +':' + escape(titulo) + ':' + escape(imagen) + ':' ;							
+							}
+					//if (servidor=="direct2watch" || servidor=='Lista M3U')
+					{
+	//showtime.print(url_video)
+							array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
+					}
+												
 						}	
 					}
 				}	
@@ -6451,6 +6554,136 @@ showtime.print (url_video)
 	PelisSebas.getitem= function() {return new Item_menu('Peliculas De Sebas','http://2.bp.blogspot.com/-WvLIB-4c9Lk/TbetevGu7zI/AAAAAAAAALs/WN0Uockq3ak/s1600/Peliculas%2B23.bmp',':vercanales:pelissebas');}
 
 	CanalFactory.registrarCanal("pelissebas",PelisSebas); 
+
+	/************************************************************************************
+	/* var Pornhub: Objeto que representa el canal Pornhub en Categoria	*
+	/************************************************************************************/
+	var Pornhub= function() {	
+		//var that=this; //Permite el acceso a metodos publicos desde metodos privados (closures): that.metodo_publico()
+
+		//metodos publicos
+		
+		/************************************************************************
+		/*	funcion getmenu: Devuelve un listado de las subsecciones del canal. *
+		/*	Parametros: ninguno													*
+		/*	Retorna: Array de objetos Item_menu									*
+		/************************************************************************/
+		this.getmenu= function(){
+		//retorna un Menu dinamico
+			var file_contents = get_urlsource('http://es.pornhub.com/categories');
+			file_contents = extraer_texto(file_contents,'<div id="categoriesStraightImages">','<div class="reset">');
+			var array_aux = extraer_html_array(file_contents,'<li','</li>');
+			file_contents = "";
+			
+			var array_menu=[];
+			var titulo;
+			var imagen;
+			var page_uri;
+			var url;
+			
+			for (var i = 0;i<array_aux.length;i++)
+			{
+				titulo = extraer_texto(array_aux[i],'alt="','"');
+				imagen = extraer_texto(array_aux[i],'<img src="','"');
+				url= "http://es.pornhub.com" + extraer_texto(array_aux[i],'<a href="','"');
+				page_uri = ':vercontenido:pornhub:'+ titulo + ":" + escape (url);
+			
+				array_menu.push(new Item_menu(titulo,imagen,page_uri,url));
+			}
+					
+		return array_menu.sortBy("titulo");
+		}
+		
+		/************************************************************************************
+		/*	funcion getplaylist: Devuelve un listado del contenido de las subsecciones.     *
+		/*	Parametros: 																    *
+		/*		page: referencia a la pagina de showtime desde donde se llama a la funcion. * 																*
+		/*		tipo: especifica los diferentes tipos de listas soportados por el canal.    *
+		/*		url: direccion de la que se debe extraer la lista.							*
+		/*	Retorna: Array de objetos Item_menu											    *
+		/************************************************************************************/
+		this.getplaylist= function (page, tipo, url) {
+			page.metadata.background = "http://fap.to/images/46/1614650196/big-tits-porn/Sexy-Wallpapers-1920x1080-4.jpg";
+			//page.metadata.glwview = plugin.path + "views/array3.view";
+			
+			var array_playlist=[];
+		
+			var file_contents = get_urlsource(unescape(url));				
+			file_contents = extraer_texto(file_contents,'<ul class="nf-videos videos row-4-thumbs">','<div class="pre-footer">');
+			var array_aux = extraer_html_array(file_contents,'<li class="videoblock"','</li>');
+			
+			var titulo;
+			var imagen;
+			var url_video;	
+			var page_uri;
+
+			for (var i=0;i<array_aux.length;i++)
+			{
+				var text_Aux=extraer_texto(array_aux[i],'<span class="title">','</span>');
+				titulo=extraer_texto(text_Aux,'title="','">');
+				titulo += ' (' + extraer_texto(array_aux[i],'<var class="duration">','</var>') + ')';
+				url_video= "http://es.pornhub.com" + extraer_texto(text_Aux,'<a href="','"');
+				imagen=extraer_texto(array_aux[i],'data-mediumthumb="','"');
+				
+				var hd= extraer_texto(array_aux[i],'<span class="hd-thumbnail">','</span>');
+				if (hd == 'HD') titulo += ' [HD]';
+				page_uri = ':vervideo:pornhub:pornhub:'+ escape(titulo) + ":" + escape (imagen) + ":";
+				
+				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));			
+			}
+			
+			//Paginación
+			file_contents = extraer_texto(file_contents,'<li class="page_next">','</li>');
+			if (file_contents !='')
+			{
+				titulo= 'Siguiente';
+				imagen= "views/img/siguiente.png";
+				url_video= extraer_texto(file_contents,'<a href="','"');
+				url_video=  "http://es.pornhub.com" + url_video.replace(/&amp;/gi,'&');
+				page_uri = ':vercontenido:pornhub:'+ titulo + ":" + escape (url_video);
+				
+				array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));
+			}
+			
+		return array_playlist;
+		}
+		
+		/****************************************************************************************
+		/*	funcion getservidores: Devuelve un listado de enlaces a la pelicula en los 			*
+		/*							servidores soportados. Sustituye a parseXXXXXpelicula (url)	*
+		/*	Parametros: 																    	*
+		/*		url: direccion de la que se debe extraer la lista.								*
+		/*	Retorna: Array de servidores												    	*
+		/****************************************************************************************/
+		this.getservidores= function (url, page){
+		//En este caso esta funcion no es necesaria
+		//La mantenemos por coherencia pero retornamos una Array vacio
+		var array_servidores=[];
+		return array_servidores;
+		}
+		
+		/************************************************************************
+		/*	funcion gethost: Devuelve la url del host donde se aloja el video	*
+		/*	Parametros:															*
+		/*		url: direccion de la que se debe extraer la lista.				*
+		/*	Retorna: String que representa la url								*
+		/************************************************************************/
+		this.geturl_host= function (url, page){
+			url = url + '\n';
+			var viewkey= extraer_texto(url,'viewkey=','\n');
+			url= 'http://es.pornhub.com/embed/' + viewkey;
+						
+			return url;		
+		}
+		
+		
+	}
+	//Propiedades y metodos Estaticos
+	//Pornhub.padre='ClasePadre';
+	Pornhub.categoria= function() {return 'adultos';}
+	Pornhub.getitem= function() {return new Item_menu('Pornhub',"http://www.geeksandcleats.com/wp-content/uploads/2014/05/porn-hub-traffic-nfl-draft-geeks-and-cleats.jpg",':vercanales:Pornhub');}
+
+	CanalFactory.registrarCanal("pornhub",Pornhub); //Registrar la clase Pornhub
 
 
 //servidores de contenidos
@@ -7718,12 +7951,12 @@ function utf8_encode(argString) {
 		titulo = unescape(titulo);
 		imagen = unescape(imagen);
 		url_video = unescape(url_video);
-		
+
 		page.metadata.background = plugin.path + "views/img/background.png";
 		page.type = "directory";
 		page.contents = "list";	
 		page.metadata.title = 'Cargando video ...';
-		page.metadata.tag=titulo + "__" + host; //Se utiliza en ListaTV para recuperar los <regex>
+		page.metadata.tag=titulo; //Se utiliza en ListaTV para recuperar los <regex>
 		page.loading = true;
 
 
@@ -7893,6 +8126,10 @@ function utf8_encode(argString) {
 			page_uri = ':vervideo:ztestchannel:videomega:test:views/img/folder.png:';
 			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
 	
+			titulo = 'Test pornhub';
+			url_video = 'es.pornhub.com/embed/1085512656';
+			page_uri = ':vervideo:ztestchannel:pornhub:test:views/img/folder.png:';
+			array_playlist.push(new Item_menu(titulo,imagen,page_uri,url_video));	
 			
 			titulo = 'Test Youtube No Cypher';
 			url_video = 'https://www.youtube.com/watch?v=mzhM6xNB8sQ';
